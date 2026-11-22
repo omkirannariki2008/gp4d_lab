@@ -19,22 +19,20 @@ env/
 ENV
 ENV/
 
-# Large data files and simulation datasets
+# Large data files and simulation datasets (>100MB)
 data/
 Tables/csv/
+predictions/
+test_run/
+scratch/
 *.csv
 *.tsv
 *.parquet
+*.npy
 *.h5
 *.hdf5
 *.zip
 *.tar.gz
-
-# Experiment outputs and model predictions
-results_*/
-predictions/
-test_run/
-scratch/
 
 # Logs
 logs/

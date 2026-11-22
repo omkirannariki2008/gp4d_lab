@@ -1,0 +1,161 @@
+{
+  "floor": -16.994194701174997,
+  "p_axes": [
+    "Q2_log_center",
+    "beta_center"
+  ],
+  "_boundaries": {
+    "lo_c1": {
+      "value": -3.652,
+      "axis": "Q2_log_center",
+      "side": "lo",
+      "desc": "PHR lower boundary (Q2_log=-3.652, Q2_std=-1.33)"
+    },
+    "hi_c1": {
+      "value": 2.7,
+      "axis": "Q2_log_center",
+      "side": "hi",
+      "desc": "DSR upper boundary (Q2_log=+2.700, Q2_std=+0.98)"
+    },
+    "hi_c2": {
+      "value": 0.827,
+      "axis": "beta_center",
+      "side": "hi",
+      "desc": "ELR boundary (\u03b2=0.827, elastic limit)"
+    }
+  },
+  "_regions": {
+    "CPR": {
+      "n": 5417,
+      "frac": 50.157407407407405,
+      "floor_pct": 1.7168174266199,
+      "dominant_var": "Q2_log_center",
+      "eta2": {
+        "Q2_log_center": 0.3163889824664546,
+        "W2_log_center": 0.05095491646950375,
+        "beta_center": 0.07519495847654464,
+        "z_center": 0.002867014844503316
+      },
+      "alpha": {
+        "Q2_log_center": NaN,
+        "W2_log_center": NaN,
+        "beta_center": NaN,
+        "z_center": NaN
+      },
+      "var_ratio": {
+        "Q2_log_center": 3.11222854037591,
+        "W2_log_center": 2.4128014996008726,
+        "beta_center": 2.316706330146614,
+        "z_center": 1.3283491747292737
+      },
+      "kernel_rec": "gibbs_sigmoid_x_matern12"
+    },
+    "PHR": {
+      "n": 1238,
+      "frac": 11.462962962962964,
+      "floor_pct": 3.4733441033925687,
+      "dominant_var": "z_center",
+      "eta2": {
+        "Q2_log_center": 0.005922331716675213,
+        "W2_log_center": 0.00610873519944444,
+        "beta_center": 0.010038380679212266,
+        "z_center": 0.16155209513756613
+      },
+      "alpha": {
+        "Q2_log_center": NaN,
+        "W2_log_center": NaN,
+        "beta_center": NaN,
+        "z_center": NaN
+      },
+      "var_ratio": {
+        "Q2_log_center": 1.7971499652947545,
+        "W2_log_center": 1.795126265888333,
+        "beta_center": 3.081975968917674,
+        "z_center": 37.007781236388
+      },
+      "kernel_rec": "gibbs_bell_x_matern12"
+    },
+    "DSR": {
+      "n": 1720,
+      "frac": 15.925925925925926,
+      "floor_pct": 11.046511627906977,
+      "dominant_var": "W2_log_center",
+      "eta2": {
+        "Q2_log_center": 0.0028150549101079495,
+        "W2_log_center": 0.0681386334036057,
+        "beta_center": 0.04017789668614166,
+        "z_center": 0.012430167211392559
+      },
+      "alpha": {
+        "Q2_log_center": NaN,
+        "W2_log_center": NaN,
+        "beta_center": NaN,
+        "z_center": NaN
+      },
+      "var_ratio": {
+        "Q2_log_center": 1.1971369248715433,
+        "W2_log_center": 4.59325667391112,
+        "beta_center": 1.542251152906021,
+        "z_center": 1.3266164527536277
+      },
+      "kernel_rec": "gibbs_sigmoid_x_matern12"
+    },
+    "TRN": {
+      "n": 623,
+      "frac": 5.768518518518518,
+      "floor_pct": 0.8025682182985553,
+      "dominant_var": "z_center",
+      "eta2": {
+        "Q2_log_center": 8.302076303270507e-05,
+        "W2_log_center": 0.011021758903847944,
+        "beta_center": 0.03256973224222879,
+        "z_center": 0.06582500904534952
+      },
+      "alpha": {
+        "Q2_log_center": NaN,
+        "W2_log_center": NaN,
+        "beta_center": NaN,
+        "z_center": NaN
+      },
+      "var_ratio": {
+        "Q2_log_center": 1.2299741438839087,
+        "W2_log_center": 13.164502144033174,
+        "beta_center": 28.96452128768044,
+        "z_center": 19.23376838813159
+      },
+      "kernel_rec": "gibbs_bell_x_matern12"
+    },
+    "ELR": {
+      "n": 1802,
+      "frac": 16.685185185185187,
+      "floor_pct": 8.657047724750278,
+      "dominant_var": "beta_center",
+      "eta2": {
+        "Q2_log_center": 0.10498809718117669,
+        "W2_log_center": 0.017852412981215066,
+        "beta_center": 0.18138591277771457,
+        "z_center": 0.016628849595866087
+      },
+      "alpha": {
+        "Q2_log_center": NaN,
+        "W2_log_center": NaN,
+        "beta_center": NaN,
+        "z_center": NaN
+      },
+      "var_ratio": {
+        "Q2_log_center": 10.69437544440857,
+        "W2_log_center": 1.4339389412585364,
+        "beta_center": 4.495898548310284,
+        "z_center": 1.7755781580891163
+      },
+      "kernel_rec": "gibbs_sigmoid_x_matern12"
+    }
+  },
+  "_kernel_recs": {
+    "CPR": "gibbs_sigmoid_x_matern12",
+    "PHR": "gibbs_bell_x_matern12",
+    "DSR": "gibbs_sigmoid_x_matern12",
+    "TRN": "gibbs_bell_x_matern12",
+    "ELR": "gibbs_sigmoid_x_matern12"
+  }
+}

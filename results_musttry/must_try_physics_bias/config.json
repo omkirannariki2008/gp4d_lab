@@ -1,0 +1,143 @@
+{
+  "name": "must_try_physics_bias",
+  "description": "HERA physics-motivated custom config: rbf_x_matern52 (q2), gibbs_sigmoid_x_matern52 (w2, beta), matern52 (z), with learned aggregation weights.",
+  "tags": [
+    "diffraction",
+    "inclusive",
+    "Q2",
+    "W2",
+    "beta",
+    "z"
+  ],
+  "data": {
+    "csv_path": "/home/omkiran/kishore/gp4d_lab/data/inclusive_A1__bSat_STU_q0_bin0-1079999_LQQ.csv",
+    "feature_cols": [
+      "Q2_log_center",
+      "W2_log_center",
+      "beta_center",
+      "z_center"
+    ],
+    "q2_bin_col": "Q2_bin_idx",
+    "target_col": "logA",
+    "train_fraction": 0.1,
+    "random_seed": 42,
+    "shuffle_before_split": true,
+    "input_scaler": "standard",
+    "target_scaler": "robust",
+    "filter_target_outliers": true,
+    "target_clip_lo": -17.955,
+    "target_clip_hi": 28.626
+  },
+  "aggregation": {
+    "strategy": "learned",
+    "rbcm_beta_floor": 0.0001,
+    "prior_var_scale": 1.0,
+    "learn_weights": true,
+    "weight_lr": 0.02,
+    "weight_epochs": 300,
+    "weight_val_frac": 0.2,
+    "weight_reg": 0.001,
+    "weight_init": "uniform",
+    "axes_enabled": [
+      "q2",
+      "w2",
+      "beta",
+      "z"
+    ]
+  },
+  "training": {
+    "n_epochs": 500,
+    "lr": 0.1,
+    "device": "auto",
+    "cg_tol": 0.001,
+    "max_cg_iter": 1000,
+    "oom_fallback": "ski",
+    "ski_grid_size": 30,
+    "verbose": true,
+    "early_stop_patience": 30,
+    "early_stop_delta": 0.001,
+    "max_cholesky_size": 2000,
+    "cholesky_jitter": 0.0001,
+    "min_noise": 0.0001,
+    "use_double": false,
+    "predict_chunk_size": 5000,
+    "constrain_lengthscale": true,
+    "min_lengthscale": 0.1,
+    "max_lengthscale": 10.0,
+    "max_noise": 0.5
+  },
+  "metrics": {
+    "track": [
+      "mae",
+      "rmse",
+      "nlpd",
+      "crps",
+      "coverage_90",
+      "coverage_68",
+      "mean_uncertainty",
+      "uncertainty_calibration_error"
+    ],
+    "primary_metric": "mae",
+    "lower_is_better": true
+  },
+  "kernels": {
+    "q2": {
+      "axis": "q2",
+      "primary_kernel": "matern52",
+      "primary_dim": 0,
+      "secondary_kernel": "matern52",
+      "use_scale_kernel": true,
+      "use_ard": true,
+      "sm_num_mixtures": 4,
+      "gibbs_variant": "power_law",
+      "gibbs_alpha_init": -0.5,
+      "gibbs_slope_init": 2.0,
+      "gibbs_x0_init": 0.0,
+      "composite_kernel": "rbf_x_matern52"
+    },
+    "w2": {
+      "axis": "w2",
+      "primary_kernel": "matern52",
+      "primary_dim": 0,
+      "secondary_kernel": "matern52",
+      "use_scale_kernel": true,
+      "use_ard": true,
+      "sm_num_mixtures": 4,
+      "gibbs_variant": "power_law",
+      "gibbs_alpha_init": -0.5,
+      "gibbs_slope_init": 2.0,
+      "gibbs_x0_init": 0.0,
+      "composite_kernel": "gibbs_sigmoid_x_matern52"
+    },
+    "beta": {
+      "axis": "beta",
+      "primary_kernel": "matern52",
+      "primary_dim": 0,
+      "secondary_kernel": "matern52",
+      "use_scale_kernel": true,
+      "use_ard": true,
+      "sm_num_mixtures": 4,
+      "gibbs_variant": "sigmoid",
+      "gibbs_alpha_init": -0.5,
+      "gibbs_slope_init": 2.0,
+      "gibbs_x0_init": 0.0,
+      "composite_kernel": "gibbs_sigmoid_x_matern52"
+    },
+    "z": {
+      "axis": "z",
+      "primary_kernel": "matern52",
+      "primary_dim": 0,
+      "secondary_kernel": "matern52",
+      "use_scale_kernel": true,
+      "use_ard": true,
+      "sm_num_mixtures": 4,
+      "gibbs_variant": "power_law",
+      "gibbs_alpha_init": -0.5,
+      "gibbs_slope_init": 2.0,
+      "gibbs_x0_init": 0.0,
+      "composite_kernel": "matern52"
+    }
+  },
+  "save_results": true,
+  "results_dir": "./results_musttry"
+}

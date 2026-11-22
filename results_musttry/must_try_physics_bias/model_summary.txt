@@ -1,0 +1,14 @@
+MultiAxisGPEnsemble Summary
+==================================================
+  Q2    | kernel=rbf_x_matern52                 | bins= 30 | time=144.9s
+  W2    | kernel=gibbs_sigmoid_x_matern52       | bins= 30 | time=185.6s
+  BETA  | kernel=gibbs_sigmoid_x_matern52       | bins= 30 | time=299.6s
+  Z     | kernel=matern52                       | bins= 40 | time=84.5s
+
+  Learned weights:
+    q2: 0.7137
+    w2: 0.2153
+    beta: 0.0565
+    z: 0.0144
+
+  Aggregation: learned
