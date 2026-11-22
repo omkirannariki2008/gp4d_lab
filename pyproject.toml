@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gp4d-lab"
+version = "0.1.0"
+description = "4-Axis Partitioned GP Ensemble for Inclusive Diffraction Cross-Section Prediction"
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [
+    { name = "Google DeepMind" }
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Physics",
+]
+dependencies = [
+    "torch>=2.0.0",
+    "gpytorch>=1.10.0",
+    "numpy>=1.22.0",
+    "pandas>=1.4.0",
+    "scikit-learn>=1.0.0",
+    "scipy>=1.8.0",
+    "tqdm>=4.60.0"
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["gp4d_lab*"]

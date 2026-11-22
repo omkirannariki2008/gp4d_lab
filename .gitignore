@@ -1,0 +1,51 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info
+*.egg-info/
+.installed.cfg
+*.egg
+build/
+dist/
+
+# Virtual environments & symlinks
+.venv
+.venv/
+venv
+venv/
+env
+env/
+ENV
+ENV/
+
+# Large data files and simulation datasets
+data/
+Tables/
+*.csv
+*.tsv
+*.parquet
+*.root
+*.h5
+*.hdf5
+*.zip
+*.tar.gz
+
+# Experiment outputs and model predictions
+results_*/
+predictions/
+test_run/
+scratch/
+
+# Logs
+logs/
+*.log
+
+# Temporary execution reports
+report*.txt
+
+# IDE, editor & OS files
+.vscode/
+.idea/
+.DS_Store
+*.swp

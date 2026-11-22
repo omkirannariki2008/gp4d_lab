@@ -1,0 +1,5537 @@
+[
+  {
+    "name": "agg_sweep_hard",
+    "description": "4-axis partitioned GP ensemble with rBCM aggregation. Physics-informed kernels per axis. 10% training fraction.",
+    "tags": [
+      "diffraction",
+      "inclusive",
+      "Q2",
+      "W2",
+      "beta",
+      "z"
+    ],
+    "data": {
+      "csv_path": "/home/omkiran/kishore/gp4d_lab/data/inclusive_A1__bSat_STU_q0_bin0-1079999_LQQ.csv",
+      "feature_cols": [
+        "Q2_log_center",
+        "W2_log_center",
+        "beta_center",
+        "z_center"
+      ],
+      "q2_bin_col": "Q2_bin_idx",
+      "target_col": "logA",
+      "train_fraction": 0.1,
+      "random_seed": 42,
+      "shuffle_before_split": true,
+      "input_scaler": "physics",
+      "target_scaler": "robust"
+    },
+    "aggregation": {
+      "strategy": "hard",
+      "rbcm_beta_floor": 0.0001,
+      "prior_var_scale": 1.0,
+      "learn_weights": false,
+      "weight_lr": 0.05,
+      "weight_epochs": 200,
+      "weight_val_frac": 0.2,
+      "weight_reg": 0.001,
+      "weight_init": "uniform",
+      "axes_enabled": [
+        "q2",
+        "w2",
+        "beta",
+        "z"
+      ]
+    },
+    "training": {
+      "n_epochs": 50,
+      "lr": 0.1,
+      "device": "auto",
+      "cg_tol": 0.001,
+      "max_cg_iter": 1000,
+      "oom_fallback": "ski",
+      "ski_grid_size": 30,
+      "verbose": true,
+      "early_stop_patience": 20,
+      "early_stop_delta": 0.0001,
+      "max_cholesky_size": 2000,
+      "cholesky_jitter": 0.0001,
+      "min_noise": 0.0001,
+      "use_double": false
+    },
+    "metrics": {
+      "track": [
+        "mae",
+        "rmse",
+        "nlpd",
+        "crps",
+        "coverage_90",
+        "coverage_68",
+        "mean_uncertainty",
+        "uncertainty_calibration_error"
+      ],
+      "primary_metric": "mae",
+      "lower_is_better": true
+    },
+    "kernels": {
+      "q2": {
+        "axis": "q2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "sm_x_matern52"
+      },
+      "w2": {
+        "axis": "w2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_power_x_matern52"
+      },
+      "beta": {
+        "axis": "beta",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "sigmoid",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_sigmoid_x_matern52"
+      },
+      "z": {
+        "axis": "z",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "matern52"
+      }
+    },
+    "save_results": true,
+    "results_dir": "results/sweep"
+  },
+  {
+    "name": "agg_sweep_poe",
+    "description": "4-axis partitioned GP ensemble with rBCM aggregation. Physics-informed kernels per axis. 10% training fraction.",
+    "tags": [
+      "diffraction",
+      "inclusive",
+      "Q2",
+      "W2",
+      "beta",
+      "z"
+    ],
+    "data": {
+      "csv_path": "/home/omkiran/kishore/gp4d_lab/data/inclusive_A1__bSat_STU_q0_bin0-1079999_LQQ.csv",
+      "feature_cols": [
+        "Q2_log_center",
+        "W2_log_center",
+        "beta_center",
+        "z_center"
+      ],
+      "q2_bin_col": "Q2_bin_idx",
+      "target_col": "logA",
+      "train_fraction": 0.1,
+      "random_seed": 42,
+      "shuffle_before_split": true,
+      "input_scaler": "physics",
+      "target_scaler": "robust"
+    },
+    "aggregation": {
+      "strategy": "poe",
+      "rbcm_beta_floor": 0.0001,
+      "prior_var_scale": 1.0,
+      "learn_weights": false,
+      "weight_lr": 0.05,
+      "weight_epochs": 200,
+      "weight_val_frac": 0.2,
+      "weight_reg": 0.001,
+      "weight_init": "uniform",
+      "axes_enabled": [
+        "q2",
+        "w2",
+        "beta",
+        "z"
+      ]
+    },
+    "training": {
+      "n_epochs": 50,
+      "lr": 0.1,
+      "device": "auto",
+      "cg_tol": 0.001,
+      "max_cg_iter": 1000,
+      "oom_fallback": "ski",
+      "ski_grid_size": 30,
+      "verbose": true,
+      "early_stop_patience": 20,
+      "early_stop_delta": 0.0001,
+      "max_cholesky_size": 2000,
+      "cholesky_jitter": 0.0001,
+      "min_noise": 0.0001,
+      "use_double": false
+    },
+    "metrics": {
+      "track": [
+        "mae",
+        "rmse",
+        "nlpd",
+        "crps",
+        "coverage_90",
+        "coverage_68",
+        "mean_uncertainty",
+        "uncertainty_calibration_error"
+      ],
+      "primary_metric": "mae",
+      "lower_is_better": true
+    },
+    "kernels": {
+      "q2": {
+        "axis": "q2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "sm_x_matern52"
+      },
+      "w2": {
+        "axis": "w2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_power_x_matern52"
+      },
+      "beta": {
+        "axis": "beta",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "sigmoid",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_sigmoid_x_matern52"
+      },
+      "z": {
+        "axis": "z",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "matern52"
+      }
+    },
+    "save_results": true,
+    "results_dir": "results/sweep"
+  },
+  {
+    "name": "agg_sweep_gpoe",
+    "description": "4-axis partitioned GP ensemble with rBCM aggregation. Physics-informed kernels per axis. 10% training fraction.",
+    "tags": [
+      "diffraction",
+      "inclusive",
+      "Q2",
+      "W2",
+      "beta",
+      "z"
+    ],
+    "data": {
+      "csv_path": "/home/omkiran/kishore/gp4d_lab/data/inclusive_A1__bSat_STU_q0_bin0-1079999_LQQ.csv",
+      "feature_cols": [
+        "Q2_log_center",
+        "W2_log_center",
+        "beta_center",
+        "z_center"
+      ],
+      "q2_bin_col": "Q2_bin_idx",
+      "target_col": "logA",
+      "train_fraction": 0.1,
+      "random_seed": 42,
+      "shuffle_before_split": true,
+      "input_scaler": "physics",
+      "target_scaler": "robust"
+    },
+    "aggregation": {
+      "strategy": "gpoe",
+      "rbcm_beta_floor": 0.0001,
+      "prior_var_scale": 1.0,
+      "learn_weights": false,
+      "weight_lr": 0.05,
+      "weight_epochs": 200,
+      "weight_val_frac": 0.2,
+      "weight_reg": 0.001,
+      "weight_init": "uniform",
+      "axes_enabled": [
+        "q2",
+        "w2",
+        "beta",
+        "z"
+      ]
+    },
+    "training": {
+      "n_epochs": 50,
+      "lr": 0.1,
+      "device": "auto",
+      "cg_tol": 0.001,
+      "max_cg_iter": 1000,
+      "oom_fallback": "ski",
+      "ski_grid_size": 30,
+      "verbose": true,
+      "early_stop_patience": 20,
+      "early_stop_delta": 0.0001,
+      "max_cholesky_size": 2000,
+      "cholesky_jitter": 0.0001,
+      "min_noise": 0.0001,
+      "use_double": false
+    },
+    "metrics": {
+      "track": [
+        "mae",
+        "rmse",
+        "nlpd",
+        "crps",
+        "coverage_90",
+        "coverage_68",
+        "mean_uncertainty",
+        "uncertainty_calibration_error"
+      ],
+      "primary_metric": "mae",
+      "lower_is_better": true
+    },
+    "kernels": {
+      "q2": {
+        "axis": "q2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "sm_x_matern52"
+      },
+      "w2": {
+        "axis": "w2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_power_x_matern52"
+      },
+      "beta": {
+        "axis": "beta",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "sigmoid",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_sigmoid_x_matern52"
+      },
+      "z": {
+        "axis": "z",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "matern52"
+      }
+    },
+    "save_results": true,
+    "results_dir": "results/sweep"
+  },
+  {
+    "name": "agg_sweep_rbcm",
+    "description": "4-axis partitioned GP ensemble with rBCM aggregation. Physics-informed kernels per axis. 10% training fraction.",
+    "tags": [
+      "diffraction",
+      "inclusive",
+      "Q2",
+      "W2",
+      "beta",
+      "z"
+    ],
+    "data": {
+      "csv_path": "/home/omkiran/kishore/gp4d_lab/data/inclusive_A1__bSat_STU_q0_bin0-1079999_LQQ.csv",
+      "feature_cols": [
+        "Q2_log_center",
+        "W2_log_center",
+        "beta_center",
+        "z_center"
+      ],
+      "q2_bin_col": "Q2_bin_idx",
+      "target_col": "logA",
+      "train_fraction": 0.1,
+      "random_seed": 42,
+      "shuffle_before_split": true,
+      "input_scaler": "physics",
+      "target_scaler": "robust"
+    },
+    "aggregation": {
+      "strategy": "rbcm",
+      "rbcm_beta_floor": 0.0001,
+      "prior_var_scale": 1.0,
+      "learn_weights": false,
+      "weight_lr": 0.05,
+      "weight_epochs": 200,
+      "weight_val_frac": 0.2,
+      "weight_reg": 0.001,
+      "weight_init": "uniform",
+      "axes_enabled": [
+        "q2",
+        "w2",
+        "beta",
+        "z"
+      ]
+    },
+    "training": {
+      "n_epochs": 50,
+      "lr": 0.1,
+      "device": "auto",
+      "cg_tol": 0.001,
+      "max_cg_iter": 1000,
+      "oom_fallback": "ski",
+      "ski_grid_size": 30,
+      "verbose": true,
+      "early_stop_patience": 20,
+      "early_stop_delta": 0.0001,
+      "max_cholesky_size": 2000,
+      "cholesky_jitter": 0.0001,
+      "min_noise": 0.0001,
+      "use_double": false
+    },
+    "metrics": {
+      "track": [
+        "mae",
+        "rmse",
+        "nlpd",
+        "crps",
+        "coverage_90",
+        "coverage_68",
+        "mean_uncertainty",
+        "uncertainty_calibration_error"
+      ],
+      "primary_metric": "mae",
+      "lower_is_better": true
+    },
+    "kernels": {
+      "q2": {
+        "axis": "q2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "sm_x_matern52"
+      },
+      "w2": {
+        "axis": "w2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_power_x_matern52"
+      },
+      "beta": {
+        "axis": "beta",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "sigmoid",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_sigmoid_x_matern52"
+      },
+      "z": {
+        "axis": "z",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "matern52"
+      }
+    },
+    "save_results": true,
+    "results_dir": "results/sweep"
+  },
+  {
+    "name": "agg_sweep_precision",
+    "description": "4-axis partitioned GP ensemble with rBCM aggregation. Physics-informed kernels per axis. 10% training fraction.",
+    "tags": [
+      "diffraction",
+      "inclusive",
+      "Q2",
+      "W2",
+      "beta",
+      "z"
+    ],
+    "data": {
+      "csv_path": "/home/omkiran/kishore/gp4d_lab/data/inclusive_A1__bSat_STU_q0_bin0-1079999_LQQ.csv",
+      "feature_cols": [
+        "Q2_log_center",
+        "W2_log_center",
+        "beta_center",
+        "z_center"
+      ],
+      "q2_bin_col": "Q2_bin_idx",
+      "target_col": "logA",
+      "train_fraction": 0.1,
+      "random_seed": 42,
+      "shuffle_before_split": true,
+      "input_scaler": "physics",
+      "target_scaler": "robust"
+    },
+    "aggregation": {
+      "strategy": "precision",
+      "rbcm_beta_floor": 0.0001,
+      "prior_var_scale": 1.0,
+      "learn_weights": false,
+      "weight_lr": 0.05,
+      "weight_epochs": 200,
+      "weight_val_frac": 0.2,
+      "weight_reg": 0.001,
+      "weight_init": "uniform",
+      "axes_enabled": [
+        "q2",
+        "w2",
+        "beta",
+        "z"
+      ]
+    },
+    "training": {
+      "n_epochs": 50,
+      "lr": 0.1,
+      "device": "auto",
+      "cg_tol": 0.001,
+      "max_cg_iter": 1000,
+      "oom_fallback": "ski",
+      "ski_grid_size": 30,
+      "verbose": true,
+      "early_stop_patience": 20,
+      "early_stop_delta": 0.0001,
+      "max_cholesky_size": 2000,
+      "cholesky_jitter": 0.0001,
+      "min_noise": 0.0001,
+      "use_double": false
+    },
+    "metrics": {
+      "track": [
+        "mae",
+        "rmse",
+        "nlpd",
+        "crps",
+        "coverage_90",
+        "coverage_68",
+        "mean_uncertainty",
+        "uncertainty_calibration_error"
+      ],
+      "primary_metric": "mae",
+      "lower_is_better": true
+    },
+    "kernels": {
+      "q2": {
+        "axis": "q2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "sm_x_matern52"
+      },
+      "w2": {
+        "axis": "w2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_power_x_matern52"
+      },
+      "beta": {
+        "axis": "beta",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "sigmoid",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_sigmoid_x_matern52"
+      },
+      "z": {
+        "axis": "z",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "matern52"
+      }
+    },
+    "save_results": true,
+    "results_dir": "results/sweep"
+  },
+  {
+    "name": "agg_sweep_learned",
+    "description": "4-axis partitioned GP ensemble with rBCM aggregation. Physics-informed kernels per axis. 10% training fraction.",
+    "tags": [
+      "diffraction",
+      "inclusive",
+      "Q2",
+      "W2",
+      "beta",
+      "z"
+    ],
+    "data": {
+      "csv_path": "/home/omkiran/kishore/gp4d_lab/data/inclusive_A1__bSat_STU_q0_bin0-1079999_LQQ.csv",
+      "feature_cols": [
+        "Q2_log_center",
+        "W2_log_center",
+        "beta_center",
+        "z_center"
+      ],
+      "q2_bin_col": "Q2_bin_idx",
+      "target_col": "logA",
+      "train_fraction": 0.1,
+      "random_seed": 42,
+      "shuffle_before_split": true,
+      "input_scaler": "physics",
+      "target_scaler": "robust"
+    },
+    "aggregation": {
+      "strategy": "learned",
+      "rbcm_beta_floor": 0.0001,
+      "prior_var_scale": 1.0,
+      "learn_weights": true,
+      "weight_lr": 0.05,
+      "weight_epochs": 200,
+      "weight_val_frac": 0.2,
+      "weight_reg": 0.001,
+      "weight_init": "uniform",
+      "axes_enabled": [
+        "q2",
+        "w2",
+        "beta",
+        "z"
+      ]
+    },
+    "training": {
+      "n_epochs": 50,
+      "lr": 0.1,
+      "device": "auto",
+      "cg_tol": 0.001,
+      "max_cg_iter": 1000,
+      "oom_fallback": "ski",
+      "ski_grid_size": 30,
+      "verbose": true,
+      "early_stop_patience": 20,
+      "early_stop_delta": 0.0001,
+      "max_cholesky_size": 2000,
+      "cholesky_jitter": 0.0001,
+      "min_noise": 0.0001,
+      "use_double": false
+    },
+    "metrics": {
+      "track": [
+        "mae",
+        "rmse",
+        "nlpd",
+        "crps",
+        "coverage_90",
+        "coverage_68",
+        "mean_uncertainty",
+        "uncertainty_calibration_error"
+      ],
+      "primary_metric": "mae",
+      "lower_is_better": true
+    },
+    "kernels": {
+      "q2": {
+        "axis": "q2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "sm_x_matern52"
+      },
+      "w2": {
+        "axis": "w2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_power_x_matern52"
+      },
+      "beta": {
+        "axis": "beta",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "sigmoid",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_sigmoid_x_matern52"
+      },
+      "z": {
+        "axis": "z",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "matern52"
+      }
+    },
+    "save_results": true,
+    "results_dir": "results/sweep"
+  },
+  {
+    "name": "kernel_axis_q2_matern52",
+    "description": "4-axis partitioned GP ensemble with rBCM aggregation. Physics-informed kernels per axis. 10% training fraction.",
+    "tags": [
+      "diffraction",
+      "inclusive",
+      "Q2",
+      "W2",
+      "beta",
+      "z"
+    ],
+    "data": {
+      "csv_path": "/home/omkiran/kishore/gp4d_lab/data/inclusive_A1__bSat_STU_q0_bin0-1079999_LQQ.csv",
+      "feature_cols": [
+        "Q2_log_center",
+        "W2_log_center",
+        "beta_center",
+        "z_center"
+      ],
+      "q2_bin_col": "Q2_bin_idx",
+      "target_col": "logA",
+      "train_fraction": 0.1,
+      "random_seed": 42,
+      "shuffle_before_split": true,
+      "input_scaler": "physics",
+      "target_scaler": "robust"
+    },
+    "aggregation": {
+      "strategy": "rbcm",
+      "rbcm_beta_floor": 0.0001,
+      "prior_var_scale": 1.0,
+      "learn_weights": true,
+      "weight_lr": 0.05,
+      "weight_epochs": 200,
+      "weight_val_frac": 0.2,
+      "weight_reg": 0.001,
+      "weight_init": "uniform",
+      "axes_enabled": [
+        "q2",
+        "w2",
+        "beta",
+        "z"
+      ]
+    },
+    "training": {
+      "n_epochs": 50,
+      "lr": 0.1,
+      "device": "auto",
+      "cg_tol": 0.001,
+      "max_cg_iter": 1000,
+      "oom_fallback": "ski",
+      "ski_grid_size": 30,
+      "verbose": true,
+      "early_stop_patience": 20,
+      "early_stop_delta": 0.0001,
+      "max_cholesky_size": 2000,
+      "cholesky_jitter": 0.0001,
+      "min_noise": 0.0001,
+      "use_double": false
+    },
+    "metrics": {
+      "track": [
+        "mae",
+        "rmse",
+        "nlpd",
+        "crps",
+        "coverage_90",
+        "coverage_68",
+        "mean_uncertainty",
+        "uncertainty_calibration_error"
+      ],
+      "primary_metric": "mae",
+      "lower_is_better": true
+    },
+    "kernels": {
+      "q2": {
+        "axis": "q2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "matern52"
+      },
+      "w2": {
+        "axis": "w2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_power_x_matern52"
+      },
+      "beta": {
+        "axis": "beta",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "sigmoid",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_sigmoid_x_matern52"
+      },
+      "z": {
+        "axis": "z",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "matern52"
+      }
+    },
+    "save_results": true,
+    "results_dir": "results/sweep"
+  },
+  {
+    "name": "kernel_axis_q2_spectral_mixture",
+    "description": "4-axis partitioned GP ensemble with rBCM aggregation. Physics-informed kernels per axis. 10% training fraction.",
+    "tags": [
+      "diffraction",
+      "inclusive",
+      "Q2",
+      "W2",
+      "beta",
+      "z"
+    ],
+    "data": {
+      "csv_path": "/home/omkiran/kishore/gp4d_lab/data/inclusive_A1__bSat_STU_q0_bin0-1079999_LQQ.csv",
+      "feature_cols": [
+        "Q2_log_center",
+        "W2_log_center",
+        "beta_center",
+        "z_center"
+      ],
+      "q2_bin_col": "Q2_bin_idx",
+      "target_col": "logA",
+      "train_fraction": 0.1,
+      "random_seed": 42,
+      "shuffle_before_split": true,
+      "input_scaler": "physics",
+      "target_scaler": "robust"
+    },
+    "aggregation": {
+      "strategy": "rbcm",
+      "rbcm_beta_floor": 0.0001,
+      "prior_var_scale": 1.0,
+      "learn_weights": true,
+      "weight_lr": 0.05,
+      "weight_epochs": 200,
+      "weight_val_frac": 0.2,
+      "weight_reg": 0.001,
+      "weight_init": "uniform",
+      "axes_enabled": [
+        "q2",
+        "w2",
+        "beta",
+        "z"
+      ]
+    },
+    "training": {
+      "n_epochs": 50,
+      "lr": 0.1,
+      "device": "auto",
+      "cg_tol": 0.001,
+      "max_cg_iter": 1000,
+      "oom_fallback": "ski",
+      "ski_grid_size": 30,
+      "verbose": true,
+      "early_stop_patience": 20,
+      "early_stop_delta": 0.0001,
+      "max_cholesky_size": 2000,
+      "cholesky_jitter": 0.0001,
+      "min_noise": 0.0001,
+      "use_double": false
+    },
+    "metrics": {
+      "track": [
+        "mae",
+        "rmse",
+        "nlpd",
+        "crps",
+        "coverage_90",
+        "coverage_68",
+        "mean_uncertainty",
+        "uncertainty_calibration_error"
+      ],
+      "primary_metric": "mae",
+      "lower_is_better": true
+    },
+    "kernels": {
+      "q2": {
+        "axis": "q2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "spectral_mixture"
+      },
+      "w2": {
+        "axis": "w2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_power_x_matern52"
+      },
+      "beta": {
+        "axis": "beta",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "sigmoid",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_sigmoid_x_matern52"
+      },
+      "z": {
+        "axis": "z",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "matern52"
+      }
+    },
+    "save_results": true,
+    "results_dir": "results/sweep"
+  },
+  {
+    "name": "kernel_axis_q2_rbf",
+    "description": "4-axis partitioned GP ensemble with rBCM aggregation. Physics-informed kernels per axis. 10% training fraction.",
+    "tags": [
+      "diffraction",
+      "inclusive",
+      "Q2",
+      "W2",
+      "beta",
+      "z"
+    ],
+    "data": {
+      "csv_path": "/home/omkiran/kishore/gp4d_lab/data/inclusive_A1__bSat_STU_q0_bin0-1079999_LQQ.csv",
+      "feature_cols": [
+        "Q2_log_center",
+        "W2_log_center",
+        "beta_center",
+        "z_center"
+      ],
+      "q2_bin_col": "Q2_bin_idx",
+      "target_col": "logA",
+      "train_fraction": 0.1,
+      "random_seed": 42,
+      "shuffle_before_split": true,
+      "input_scaler": "physics",
+      "target_scaler": "robust"
+    },
+    "aggregation": {
+      "strategy": "rbcm",
+      "rbcm_beta_floor": 0.0001,
+      "prior_var_scale": 1.0,
+      "learn_weights": true,
+      "weight_lr": 0.05,
+      "weight_epochs": 200,
+      "weight_val_frac": 0.2,
+      "weight_reg": 0.001,
+      "weight_init": "uniform",
+      "axes_enabled": [
+        "q2",
+        "w2",
+        "beta",
+        "z"
+      ]
+    },
+    "training": {
+      "n_epochs": 50,
+      "lr": 0.1,
+      "device": "auto",
+      "cg_tol": 0.001,
+      "max_cg_iter": 1000,
+      "oom_fallback": "ski",
+      "ski_grid_size": 30,
+      "verbose": true,
+      "early_stop_patience": 20,
+      "early_stop_delta": 0.0001,
+      "max_cholesky_size": 2000,
+      "cholesky_jitter": 0.0001,
+      "min_noise": 0.0001,
+      "use_double": false
+    },
+    "metrics": {
+      "track": [
+        "mae",
+        "rmse",
+        "nlpd",
+        "crps",
+        "coverage_90",
+        "coverage_68",
+        "mean_uncertainty",
+        "uncertainty_calibration_error"
+      ],
+      "primary_metric": "mae",
+      "lower_is_better": true
+    },
+    "kernels": {
+      "q2": {
+        "axis": "q2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "rbf"
+      },
+      "w2": {
+        "axis": "w2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_power_x_matern52"
+      },
+      "beta": {
+        "axis": "beta",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "sigmoid",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_sigmoid_x_matern52"
+      },
+      "z": {
+        "axis": "z",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "matern52"
+      }
+    },
+    "save_results": true,
+    "results_dir": "results/sweep"
+  },
+  {
+    "name": "kernel_axis_q2_sm_x_matern52",
+    "description": "4-axis partitioned GP ensemble with rBCM aggregation. Physics-informed kernels per axis. 10% training fraction.",
+    "tags": [
+      "diffraction",
+      "inclusive",
+      "Q2",
+      "W2",
+      "beta",
+      "z"
+    ],
+    "data": {
+      "csv_path": "/home/omkiran/kishore/gp4d_lab/data/inclusive_A1__bSat_STU_q0_bin0-1079999_LQQ.csv",
+      "feature_cols": [
+        "Q2_log_center",
+        "W2_log_center",
+        "beta_center",
+        "z_center"
+      ],
+      "q2_bin_col": "Q2_bin_idx",
+      "target_col": "logA",
+      "train_fraction": 0.1,
+      "random_seed": 42,
+      "shuffle_before_split": true,
+      "input_scaler": "physics",
+      "target_scaler": "robust"
+    },
+    "aggregation": {
+      "strategy": "rbcm",
+      "rbcm_beta_floor": 0.0001,
+      "prior_var_scale": 1.0,
+      "learn_weights": true,
+      "weight_lr": 0.05,
+      "weight_epochs": 200,
+      "weight_val_frac": 0.2,
+      "weight_reg": 0.001,
+      "weight_init": "uniform",
+      "axes_enabled": [
+        "q2",
+        "w2",
+        "beta",
+        "z"
+      ]
+    },
+    "training": {
+      "n_epochs": 50,
+      "lr": 0.1,
+      "device": "auto",
+      "cg_tol": 0.001,
+      "max_cg_iter": 1000,
+      "oom_fallback": "ski",
+      "ski_grid_size": 30,
+      "verbose": true,
+      "early_stop_patience": 20,
+      "early_stop_delta": 0.0001,
+      "max_cholesky_size": 2000,
+      "cholesky_jitter": 0.0001,
+      "min_noise": 0.0001,
+      "use_double": false
+    },
+    "metrics": {
+      "track": [
+        "mae",
+        "rmse",
+        "nlpd",
+        "crps",
+        "coverage_90",
+        "coverage_68",
+        "mean_uncertainty",
+        "uncertainty_calibration_error"
+      ],
+      "primary_metric": "mae",
+      "lower_is_better": true
+    },
+    "kernels": {
+      "q2": {
+        "axis": "q2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "sm_x_matern52"
+      },
+      "w2": {
+        "axis": "w2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_power_x_matern52"
+      },
+      "beta": {
+        "axis": "beta",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "sigmoid",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_sigmoid_x_matern52"
+      },
+      "z": {
+        "axis": "z",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "matern52"
+      }
+    },
+    "save_results": true,
+    "results_dir": "results/sweep"
+  },
+  {
+    "name": "kernel_axis_q2_gibbs_power_x_matern52",
+    "description": "4-axis partitioned GP ensemble with rBCM aggregation. Physics-informed kernels per axis. 10% training fraction.",
+    "tags": [
+      "diffraction",
+      "inclusive",
+      "Q2",
+      "W2",
+      "beta",
+      "z"
+    ],
+    "data": {
+      "csv_path": "/home/omkiran/kishore/gp4d_lab/data/inclusive_A1__bSat_STU_q0_bin0-1079999_LQQ.csv",
+      "feature_cols": [
+        "Q2_log_center",
+        "W2_log_center",
+        "beta_center",
+        "z_center"
+      ],
+      "q2_bin_col": "Q2_bin_idx",
+      "target_col": "logA",
+      "train_fraction": 0.1,
+      "random_seed": 42,
+      "shuffle_before_split": true,
+      "input_scaler": "physics",
+      "target_scaler": "robust"
+    },
+    "aggregation": {
+      "strategy": "rbcm",
+      "rbcm_beta_floor": 0.0001,
+      "prior_var_scale": 1.0,
+      "learn_weights": true,
+      "weight_lr": 0.05,
+      "weight_epochs": 200,
+      "weight_val_frac": 0.2,
+      "weight_reg": 0.001,
+      "weight_init": "uniform",
+      "axes_enabled": [
+        "q2",
+        "w2",
+        "beta",
+        "z"
+      ]
+    },
+    "training": {
+      "n_epochs": 50,
+      "lr": 0.1,
+      "device": "auto",
+      "cg_tol": 0.001,
+      "max_cg_iter": 1000,
+      "oom_fallback": "ski",
+      "ski_grid_size": 30,
+      "verbose": true,
+      "early_stop_patience": 20,
+      "early_stop_delta": 0.0001,
+      "max_cholesky_size": 2000,
+      "cholesky_jitter": 0.0001,
+      "min_noise": 0.0001,
+      "use_double": false
+    },
+    "metrics": {
+      "track": [
+        "mae",
+        "rmse",
+        "nlpd",
+        "crps",
+        "coverage_90",
+        "coverage_68",
+        "mean_uncertainty",
+        "uncertainty_calibration_error"
+      ],
+      "primary_metric": "mae",
+      "lower_is_better": true
+    },
+    "kernels": {
+      "q2": {
+        "axis": "q2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_power_x_matern52"
+      },
+      "w2": {
+        "axis": "w2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_power_x_matern52"
+      },
+      "beta": {
+        "axis": "beta",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "sigmoid",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_sigmoid_x_matern52"
+      },
+      "z": {
+        "axis": "z",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "matern52"
+      }
+    },
+    "save_results": true,
+    "results_dir": "results/sweep"
+  },
+  {
+    "name": "kernel_axis_q2_gibbs_sigmoid_x_matern52",
+    "description": "4-axis partitioned GP ensemble with rBCM aggregation. Physics-informed kernels per axis. 10% training fraction.",
+    "tags": [
+      "diffraction",
+      "inclusive",
+      "Q2",
+      "W2",
+      "beta",
+      "z"
+    ],
+    "data": {
+      "csv_path": "/home/omkiran/kishore/gp4d_lab/data/inclusive_A1__bSat_STU_q0_bin0-1079999_LQQ.csv",
+      "feature_cols": [
+        "Q2_log_center",
+        "W2_log_center",
+        "beta_center",
+        "z_center"
+      ],
+      "q2_bin_col": "Q2_bin_idx",
+      "target_col": "logA",
+      "train_fraction": 0.1,
+      "random_seed": 42,
+      "shuffle_before_split": true,
+      "input_scaler": "physics",
+      "target_scaler": "robust"
+    },
+    "aggregation": {
+      "strategy": "rbcm",
+      "rbcm_beta_floor": 0.0001,
+      "prior_var_scale": 1.0,
+      "learn_weights": true,
+      "weight_lr": 0.05,
+      "weight_epochs": 200,
+      "weight_val_frac": 0.2,
+      "weight_reg": 0.001,
+      "weight_init": "uniform",
+      "axes_enabled": [
+        "q2",
+        "w2",
+        "beta",
+        "z"
+      ]
+    },
+    "training": {
+      "n_epochs": 50,
+      "lr": 0.1,
+      "device": "auto",
+      "cg_tol": 0.001,
+      "max_cg_iter": 1000,
+      "oom_fallback": "ski",
+      "ski_grid_size": 30,
+      "verbose": true,
+      "early_stop_patience": 20,
+      "early_stop_delta": 0.0001,
+      "max_cholesky_size": 2000,
+      "cholesky_jitter": 0.0001,
+      "min_noise": 0.0001,
+      "use_double": false
+    },
+    "metrics": {
+      "track": [
+        "mae",
+        "rmse",
+        "nlpd",
+        "crps",
+        "coverage_90",
+        "coverage_68",
+        "mean_uncertainty",
+        "uncertainty_calibration_error"
+      ],
+      "primary_metric": "mae",
+      "lower_is_better": true
+    },
+    "kernels": {
+      "q2": {
+        "axis": "q2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_sigmoid_x_matern52"
+      },
+      "w2": {
+        "axis": "w2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_power_x_matern52"
+      },
+      "beta": {
+        "axis": "beta",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "sigmoid",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_sigmoid_x_matern52"
+      },
+      "z": {
+        "axis": "z",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "matern52"
+      }
+    },
+    "save_results": true,
+    "results_dir": "results/sweep"
+  },
+  {
+    "name": "kernel_axis_q2_matern52_x_sm",
+    "description": "4-axis partitioned GP ensemble with rBCM aggregation. Physics-informed kernels per axis. 10% training fraction.",
+    "tags": [
+      "diffraction",
+      "inclusive",
+      "Q2",
+      "W2",
+      "beta",
+      "z"
+    ],
+    "data": {
+      "csv_path": "/home/omkiran/kishore/gp4d_lab/data/inclusive_A1__bSat_STU_q0_bin0-1079999_LQQ.csv",
+      "feature_cols": [
+        "Q2_log_center",
+        "W2_log_center",
+        "beta_center",
+        "z_center"
+      ],
+      "q2_bin_col": "Q2_bin_idx",
+      "target_col": "logA",
+      "train_fraction": 0.1,
+      "random_seed": 42,
+      "shuffle_before_split": true,
+      "input_scaler": "physics",
+      "target_scaler": "robust"
+    },
+    "aggregation": {
+      "strategy": "rbcm",
+      "rbcm_beta_floor": 0.0001,
+      "prior_var_scale": 1.0,
+      "learn_weights": true,
+      "weight_lr": 0.05,
+      "weight_epochs": 200,
+      "weight_val_frac": 0.2,
+      "weight_reg": 0.001,
+      "weight_init": "uniform",
+      "axes_enabled": [
+        "q2",
+        "w2",
+        "beta",
+        "z"
+      ]
+    },
+    "training": {
+      "n_epochs": 50,
+      "lr": 0.1,
+      "device": "auto",
+      "cg_tol": 0.001,
+      "max_cg_iter": 1000,
+      "oom_fallback": "ski",
+      "ski_grid_size": 30,
+      "verbose": true,
+      "early_stop_patience": 20,
+      "early_stop_delta": 0.0001,
+      "max_cholesky_size": 2000,
+      "cholesky_jitter": 0.0001,
+      "min_noise": 0.0001,
+      "use_double": false
+    },
+    "metrics": {
+      "track": [
+        "mae",
+        "rmse",
+        "nlpd",
+        "crps",
+        "coverage_90",
+        "coverage_68",
+        "mean_uncertainty",
+        "uncertainty_calibration_error"
+      ],
+      "primary_metric": "mae",
+      "lower_is_better": true
+    },
+    "kernels": {
+      "q2": {
+        "axis": "q2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "matern52_x_sm"
+      },
+      "w2": {
+        "axis": "w2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_power_x_matern52"
+      },
+      "beta": {
+        "axis": "beta",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "sigmoid",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_sigmoid_x_matern52"
+      },
+      "z": {
+        "axis": "z",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "matern52"
+      }
+    },
+    "save_results": true,
+    "results_dir": "results/sweep"
+  },
+  {
+    "name": "kernel_axis_w2_matern52",
+    "description": "4-axis partitioned GP ensemble with rBCM aggregation. Physics-informed kernels per axis. 10% training fraction.",
+    "tags": [
+      "diffraction",
+      "inclusive",
+      "Q2",
+      "W2",
+      "beta",
+      "z"
+    ],
+    "data": {
+      "csv_path": "/home/omkiran/kishore/gp4d_lab/data/inclusive_A1__bSat_STU_q0_bin0-1079999_LQQ.csv",
+      "feature_cols": [
+        "Q2_log_center",
+        "W2_log_center",
+        "beta_center",
+        "z_center"
+      ],
+      "q2_bin_col": "Q2_bin_idx",
+      "target_col": "logA",
+      "train_fraction": 0.1,
+      "random_seed": 42,
+      "shuffle_before_split": true,
+      "input_scaler": "physics",
+      "target_scaler": "robust"
+    },
+    "aggregation": {
+      "strategy": "rbcm",
+      "rbcm_beta_floor": 0.0001,
+      "prior_var_scale": 1.0,
+      "learn_weights": true,
+      "weight_lr": 0.05,
+      "weight_epochs": 200,
+      "weight_val_frac": 0.2,
+      "weight_reg": 0.001,
+      "weight_init": "uniform",
+      "axes_enabled": [
+        "q2",
+        "w2",
+        "beta",
+        "z"
+      ]
+    },
+    "training": {
+      "n_epochs": 50,
+      "lr": 0.1,
+      "device": "auto",
+      "cg_tol": 0.001,
+      "max_cg_iter": 1000,
+      "oom_fallback": "ski",
+      "ski_grid_size": 30,
+      "verbose": true,
+      "early_stop_patience": 20,
+      "early_stop_delta": 0.0001,
+      "max_cholesky_size": 2000,
+      "cholesky_jitter": 0.0001,
+      "min_noise": 0.0001,
+      "use_double": false
+    },
+    "metrics": {
+      "track": [
+        "mae",
+        "rmse",
+        "nlpd",
+        "crps",
+        "coverage_90",
+        "coverage_68",
+        "mean_uncertainty",
+        "uncertainty_calibration_error"
+      ],
+      "primary_metric": "mae",
+      "lower_is_better": true
+    },
+    "kernels": {
+      "q2": {
+        "axis": "q2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "sm_x_matern52"
+      },
+      "w2": {
+        "axis": "w2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "matern52"
+      },
+      "beta": {
+        "axis": "beta",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "sigmoid",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_sigmoid_x_matern52"
+      },
+      "z": {
+        "axis": "z",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "matern52"
+      }
+    },
+    "save_results": true,
+    "results_dir": "results/sweep"
+  },
+  {
+    "name": "kernel_axis_w2_spectral_mixture",
+    "description": "4-axis partitioned GP ensemble with rBCM aggregation. Physics-informed kernels per axis. 10% training fraction.",
+    "tags": [
+      "diffraction",
+      "inclusive",
+      "Q2",
+      "W2",
+      "beta",
+      "z"
+    ],
+    "data": {
+      "csv_path": "/home/omkiran/kishore/gp4d_lab/data/inclusive_A1__bSat_STU_q0_bin0-1079999_LQQ.csv",
+      "feature_cols": [
+        "Q2_log_center",
+        "W2_log_center",
+        "beta_center",
+        "z_center"
+      ],
+      "q2_bin_col": "Q2_bin_idx",
+      "target_col": "logA",
+      "train_fraction": 0.1,
+      "random_seed": 42,
+      "shuffle_before_split": true,
+      "input_scaler": "physics",
+      "target_scaler": "robust"
+    },
+    "aggregation": {
+      "strategy": "rbcm",
+      "rbcm_beta_floor": 0.0001,
+      "prior_var_scale": 1.0,
+      "learn_weights": true,
+      "weight_lr": 0.05,
+      "weight_epochs": 200,
+      "weight_val_frac": 0.2,
+      "weight_reg": 0.001,
+      "weight_init": "uniform",
+      "axes_enabled": [
+        "q2",
+        "w2",
+        "beta",
+        "z"
+      ]
+    },
+    "training": {
+      "n_epochs": 50,
+      "lr": 0.1,
+      "device": "auto",
+      "cg_tol": 0.001,
+      "max_cg_iter": 1000,
+      "oom_fallback": "ski",
+      "ski_grid_size": 30,
+      "verbose": true,
+      "early_stop_patience": 20,
+      "early_stop_delta": 0.0001,
+      "max_cholesky_size": 2000,
+      "cholesky_jitter": 0.0001,
+      "min_noise": 0.0001,
+      "use_double": false
+    },
+    "metrics": {
+      "track": [
+        "mae",
+        "rmse",
+        "nlpd",
+        "crps",
+        "coverage_90",
+        "coverage_68",
+        "mean_uncertainty",
+        "uncertainty_calibration_error"
+      ],
+      "primary_metric": "mae",
+      "lower_is_better": true
+    },
+    "kernels": {
+      "q2": {
+        "axis": "q2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "sm_x_matern52"
+      },
+      "w2": {
+        "axis": "w2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "spectral_mixture"
+      },
+      "beta": {
+        "axis": "beta",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "sigmoid",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_sigmoid_x_matern52"
+      },
+      "z": {
+        "axis": "z",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "matern52"
+      }
+    },
+    "save_results": true,
+    "results_dir": "results/sweep"
+  },
+  {
+    "name": "kernel_axis_w2_rbf",
+    "description": "4-axis partitioned GP ensemble with rBCM aggregation. Physics-informed kernels per axis. 10% training fraction.",
+    "tags": [
+      "diffraction",
+      "inclusive",
+      "Q2",
+      "W2",
+      "beta",
+      "z"
+    ],
+    "data": {
+      "csv_path": "/home/omkiran/kishore/gp4d_lab/data/inclusive_A1__bSat_STU_q0_bin0-1079999_LQQ.csv",
+      "feature_cols": [
+        "Q2_log_center",
+        "W2_log_center",
+        "beta_center",
+        "z_center"
+      ],
+      "q2_bin_col": "Q2_bin_idx",
+      "target_col": "logA",
+      "train_fraction": 0.1,
+      "random_seed": 42,
+      "shuffle_before_split": true,
+      "input_scaler": "physics",
+      "target_scaler": "robust"
+    },
+    "aggregation": {
+      "strategy": "rbcm",
+      "rbcm_beta_floor": 0.0001,
+      "prior_var_scale": 1.0,
+      "learn_weights": true,
+      "weight_lr": 0.05,
+      "weight_epochs": 200,
+      "weight_val_frac": 0.2,
+      "weight_reg": 0.001,
+      "weight_init": "uniform",
+      "axes_enabled": [
+        "q2",
+        "w2",
+        "beta",
+        "z"
+      ]
+    },
+    "training": {
+      "n_epochs": 50,
+      "lr": 0.1,
+      "device": "auto",
+      "cg_tol": 0.001,
+      "max_cg_iter": 1000,
+      "oom_fallback": "ski",
+      "ski_grid_size": 30,
+      "verbose": true,
+      "early_stop_patience": 20,
+      "early_stop_delta": 0.0001,
+      "max_cholesky_size": 2000,
+      "cholesky_jitter": 0.0001,
+      "min_noise": 0.0001,
+      "use_double": false
+    },
+    "metrics": {
+      "track": [
+        "mae",
+        "rmse",
+        "nlpd",
+        "crps",
+        "coverage_90",
+        "coverage_68",
+        "mean_uncertainty",
+        "uncertainty_calibration_error"
+      ],
+      "primary_metric": "mae",
+      "lower_is_better": true
+    },
+    "kernels": {
+      "q2": {
+        "axis": "q2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "sm_x_matern52"
+      },
+      "w2": {
+        "axis": "w2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "rbf"
+      },
+      "beta": {
+        "axis": "beta",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "sigmoid",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_sigmoid_x_matern52"
+      },
+      "z": {
+        "axis": "z",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "matern52"
+      }
+    },
+    "save_results": true,
+    "results_dir": "results/sweep"
+  },
+  {
+    "name": "kernel_axis_w2_sm_x_matern52",
+    "description": "4-axis partitioned GP ensemble with rBCM aggregation. Physics-informed kernels per axis. 10% training fraction.",
+    "tags": [
+      "diffraction",
+      "inclusive",
+      "Q2",
+      "W2",
+      "beta",
+      "z"
+    ],
+    "data": {
+      "csv_path": "/home/omkiran/kishore/gp4d_lab/data/inclusive_A1__bSat_STU_q0_bin0-1079999_LQQ.csv",
+      "feature_cols": [
+        "Q2_log_center",
+        "W2_log_center",
+        "beta_center",
+        "z_center"
+      ],
+      "q2_bin_col": "Q2_bin_idx",
+      "target_col": "logA",
+      "train_fraction": 0.1,
+      "random_seed": 42,
+      "shuffle_before_split": true,
+      "input_scaler": "physics",
+      "target_scaler": "robust"
+    },
+    "aggregation": {
+      "strategy": "rbcm",
+      "rbcm_beta_floor": 0.0001,
+      "prior_var_scale": 1.0,
+      "learn_weights": true,
+      "weight_lr": 0.05,
+      "weight_epochs": 200,
+      "weight_val_frac": 0.2,
+      "weight_reg": 0.001,
+      "weight_init": "uniform",
+      "axes_enabled": [
+        "q2",
+        "w2",
+        "beta",
+        "z"
+      ]
+    },
+    "training": {
+      "n_epochs": 50,
+      "lr": 0.1,
+      "device": "auto",
+      "cg_tol": 0.001,
+      "max_cg_iter": 1000,
+      "oom_fallback": "ski",
+      "ski_grid_size": 30,
+      "verbose": true,
+      "early_stop_patience": 20,
+      "early_stop_delta": 0.0001,
+      "max_cholesky_size": 2000,
+      "cholesky_jitter": 0.0001,
+      "min_noise": 0.0001,
+      "use_double": false
+    },
+    "metrics": {
+      "track": [
+        "mae",
+        "rmse",
+        "nlpd",
+        "crps",
+        "coverage_90",
+        "coverage_68",
+        "mean_uncertainty",
+        "uncertainty_calibration_error"
+      ],
+      "primary_metric": "mae",
+      "lower_is_better": true
+    },
+    "kernels": {
+      "q2": {
+        "axis": "q2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "sm_x_matern52"
+      },
+      "w2": {
+        "axis": "w2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "sm_x_matern52"
+      },
+      "beta": {
+        "axis": "beta",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "sigmoid",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_sigmoid_x_matern52"
+      },
+      "z": {
+        "axis": "z",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "matern52"
+      }
+    },
+    "save_results": true,
+    "results_dir": "results/sweep"
+  },
+  {
+    "name": "kernel_axis_w2_gibbs_power_x_matern52",
+    "description": "4-axis partitioned GP ensemble with rBCM aggregation. Physics-informed kernels per axis. 10% training fraction.",
+    "tags": [
+      "diffraction",
+      "inclusive",
+      "Q2",
+      "W2",
+      "beta",
+      "z"
+    ],
+    "data": {
+      "csv_path": "/home/omkiran/kishore/gp4d_lab/data/inclusive_A1__bSat_STU_q0_bin0-1079999_LQQ.csv",
+      "feature_cols": [
+        "Q2_log_center",
+        "W2_log_center",
+        "beta_center",
+        "z_center"
+      ],
+      "q2_bin_col": "Q2_bin_idx",
+      "target_col": "logA",
+      "train_fraction": 0.1,
+      "random_seed": 42,
+      "shuffle_before_split": true,
+      "input_scaler": "physics",
+      "target_scaler": "robust"
+    },
+    "aggregation": {
+      "strategy": "rbcm",
+      "rbcm_beta_floor": 0.0001,
+      "prior_var_scale": 1.0,
+      "learn_weights": true,
+      "weight_lr": 0.05,
+      "weight_epochs": 200,
+      "weight_val_frac": 0.2,
+      "weight_reg": 0.001,
+      "weight_init": "uniform",
+      "axes_enabled": [
+        "q2",
+        "w2",
+        "beta",
+        "z"
+      ]
+    },
+    "training": {
+      "n_epochs": 50,
+      "lr": 0.1,
+      "device": "auto",
+      "cg_tol": 0.001,
+      "max_cg_iter": 1000,
+      "oom_fallback": "ski",
+      "ski_grid_size": 30,
+      "verbose": true,
+      "early_stop_patience": 20,
+      "early_stop_delta": 0.0001,
+      "max_cholesky_size": 2000,
+      "cholesky_jitter": 0.0001,
+      "min_noise": 0.0001,
+      "use_double": false
+    },
+    "metrics": {
+      "track": [
+        "mae",
+        "rmse",
+        "nlpd",
+        "crps",
+        "coverage_90",
+        "coverage_68",
+        "mean_uncertainty",
+        "uncertainty_calibration_error"
+      ],
+      "primary_metric": "mae",
+      "lower_is_better": true
+    },
+    "kernels": {
+      "q2": {
+        "axis": "q2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "sm_x_matern52"
+      },
+      "w2": {
+        "axis": "w2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_power_x_matern52"
+      },
+      "beta": {
+        "axis": "beta",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "sigmoid",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_sigmoid_x_matern52"
+      },
+      "z": {
+        "axis": "z",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "matern52"
+      }
+    },
+    "save_results": true,
+    "results_dir": "results/sweep"
+  },
+  {
+    "name": "kernel_axis_w2_gibbs_sigmoid_x_matern52",
+    "description": "4-axis partitioned GP ensemble with rBCM aggregation. Physics-informed kernels per axis. 10% training fraction.",
+    "tags": [
+      "diffraction",
+      "inclusive",
+      "Q2",
+      "W2",
+      "beta",
+      "z"
+    ],
+    "data": {
+      "csv_path": "/home/omkiran/kishore/gp4d_lab/data/inclusive_A1__bSat_STU_q0_bin0-1079999_LQQ.csv",
+      "feature_cols": [
+        "Q2_log_center",
+        "W2_log_center",
+        "beta_center",
+        "z_center"
+      ],
+      "q2_bin_col": "Q2_bin_idx",
+      "target_col": "logA",
+      "train_fraction": 0.1,
+      "random_seed": 42,
+      "shuffle_before_split": true,
+      "input_scaler": "physics",
+      "target_scaler": "robust"
+    },
+    "aggregation": {
+      "strategy": "rbcm",
+      "rbcm_beta_floor": 0.0001,
+      "prior_var_scale": 1.0,
+      "learn_weights": true,
+      "weight_lr": 0.05,
+      "weight_epochs": 200,
+      "weight_val_frac": 0.2,
+      "weight_reg": 0.001,
+      "weight_init": "uniform",
+      "axes_enabled": [
+        "q2",
+        "w2",
+        "beta",
+        "z"
+      ]
+    },
+    "training": {
+      "n_epochs": 50,
+      "lr": 0.1,
+      "device": "auto",
+      "cg_tol": 0.001,
+      "max_cg_iter": 1000,
+      "oom_fallback": "ski",
+      "ski_grid_size": 30,
+      "verbose": true,
+      "early_stop_patience": 20,
+      "early_stop_delta": 0.0001,
+      "max_cholesky_size": 2000,
+      "cholesky_jitter": 0.0001,
+      "min_noise": 0.0001,
+      "use_double": false
+    },
+    "metrics": {
+      "track": [
+        "mae",
+        "rmse",
+        "nlpd",
+        "crps",
+        "coverage_90",
+        "coverage_68",
+        "mean_uncertainty",
+        "uncertainty_calibration_error"
+      ],
+      "primary_metric": "mae",
+      "lower_is_better": true
+    },
+    "kernels": {
+      "q2": {
+        "axis": "q2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "sm_x_matern52"
+      },
+      "w2": {
+        "axis": "w2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_sigmoid_x_matern52"
+      },
+      "beta": {
+        "axis": "beta",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "sigmoid",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_sigmoid_x_matern52"
+      },
+      "z": {
+        "axis": "z",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "matern52"
+      }
+    },
+    "save_results": true,
+    "results_dir": "results/sweep"
+  },
+  {
+    "name": "kernel_axis_w2_matern52_x_sm",
+    "description": "4-axis partitioned GP ensemble with rBCM aggregation. Physics-informed kernels per axis. 10% training fraction.",
+    "tags": [
+      "diffraction",
+      "inclusive",
+      "Q2",
+      "W2",
+      "beta",
+      "z"
+    ],
+    "data": {
+      "csv_path": "/home/omkiran/kishore/gp4d_lab/data/inclusive_A1__bSat_STU_q0_bin0-1079999_LQQ.csv",
+      "feature_cols": [
+        "Q2_log_center",
+        "W2_log_center",
+        "beta_center",
+        "z_center"
+      ],
+      "q2_bin_col": "Q2_bin_idx",
+      "target_col": "logA",
+      "train_fraction": 0.1,
+      "random_seed": 42,
+      "shuffle_before_split": true,
+      "input_scaler": "physics",
+      "target_scaler": "robust"
+    },
+    "aggregation": {
+      "strategy": "rbcm",
+      "rbcm_beta_floor": 0.0001,
+      "prior_var_scale": 1.0,
+      "learn_weights": true,
+      "weight_lr": 0.05,
+      "weight_epochs": 200,
+      "weight_val_frac": 0.2,
+      "weight_reg": 0.001,
+      "weight_init": "uniform",
+      "axes_enabled": [
+        "q2",
+        "w2",
+        "beta",
+        "z"
+      ]
+    },
+    "training": {
+      "n_epochs": 50,
+      "lr": 0.1,
+      "device": "auto",
+      "cg_tol": 0.001,
+      "max_cg_iter": 1000,
+      "oom_fallback": "ski",
+      "ski_grid_size": 30,
+      "verbose": true,
+      "early_stop_patience": 20,
+      "early_stop_delta": 0.0001,
+      "max_cholesky_size": 2000,
+      "cholesky_jitter": 0.0001,
+      "min_noise": 0.0001,
+      "use_double": false
+    },
+    "metrics": {
+      "track": [
+        "mae",
+        "rmse",
+        "nlpd",
+        "crps",
+        "coverage_90",
+        "coverage_68",
+        "mean_uncertainty",
+        "uncertainty_calibration_error"
+      ],
+      "primary_metric": "mae",
+      "lower_is_better": true
+    },
+    "kernels": {
+      "q2": {
+        "axis": "q2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "sm_x_matern52"
+      },
+      "w2": {
+        "axis": "w2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "matern52_x_sm"
+      },
+      "beta": {
+        "axis": "beta",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "sigmoid",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_sigmoid_x_matern52"
+      },
+      "z": {
+        "axis": "z",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "matern52"
+      }
+    },
+    "save_results": true,
+    "results_dir": "results/sweep"
+  },
+  {
+    "name": "kernel_axis_beta_matern52",
+    "description": "4-axis partitioned GP ensemble with rBCM aggregation. Physics-informed kernels per axis. 10% training fraction.",
+    "tags": [
+      "diffraction",
+      "inclusive",
+      "Q2",
+      "W2",
+      "beta",
+      "z"
+    ],
+    "data": {
+      "csv_path": "/home/omkiran/kishore/gp4d_lab/data/inclusive_A1__bSat_STU_q0_bin0-1079999_LQQ.csv",
+      "feature_cols": [
+        "Q2_log_center",
+        "W2_log_center",
+        "beta_center",
+        "z_center"
+      ],
+      "q2_bin_col": "Q2_bin_idx",
+      "target_col": "logA",
+      "train_fraction": 0.1,
+      "random_seed": 42,
+      "shuffle_before_split": true,
+      "input_scaler": "physics",
+      "target_scaler": "robust"
+    },
+    "aggregation": {
+      "strategy": "rbcm",
+      "rbcm_beta_floor": 0.0001,
+      "prior_var_scale": 1.0,
+      "learn_weights": true,
+      "weight_lr": 0.05,
+      "weight_epochs": 200,
+      "weight_val_frac": 0.2,
+      "weight_reg": 0.001,
+      "weight_init": "uniform",
+      "axes_enabled": [
+        "q2",
+        "w2",
+        "beta",
+        "z"
+      ]
+    },
+    "training": {
+      "n_epochs": 50,
+      "lr": 0.1,
+      "device": "auto",
+      "cg_tol": 0.001,
+      "max_cg_iter": 1000,
+      "oom_fallback": "ski",
+      "ski_grid_size": 30,
+      "verbose": true,
+      "early_stop_patience": 20,
+      "early_stop_delta": 0.0001,
+      "max_cholesky_size": 2000,
+      "cholesky_jitter": 0.0001,
+      "min_noise": 0.0001,
+      "use_double": false
+    },
+    "metrics": {
+      "track": [
+        "mae",
+        "rmse",
+        "nlpd",
+        "crps",
+        "coverage_90",
+        "coverage_68",
+        "mean_uncertainty",
+        "uncertainty_calibration_error"
+      ],
+      "primary_metric": "mae",
+      "lower_is_better": true
+    },
+    "kernels": {
+      "q2": {
+        "axis": "q2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "sm_x_matern52"
+      },
+      "w2": {
+        "axis": "w2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_power_x_matern52"
+      },
+      "beta": {
+        "axis": "beta",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "matern52"
+      },
+      "z": {
+        "axis": "z",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "matern52"
+      }
+    },
+    "save_results": true,
+    "results_dir": "results/sweep"
+  },
+  {
+    "name": "kernel_axis_beta_spectral_mixture",
+    "description": "4-axis partitioned GP ensemble with rBCM aggregation. Physics-informed kernels per axis. 10% training fraction.",
+    "tags": [
+      "diffraction",
+      "inclusive",
+      "Q2",
+      "W2",
+      "beta",
+      "z"
+    ],
+    "data": {
+      "csv_path": "/home/omkiran/kishore/gp4d_lab/data/inclusive_A1__bSat_STU_q0_bin0-1079999_LQQ.csv",
+      "feature_cols": [
+        "Q2_log_center",
+        "W2_log_center",
+        "beta_center",
+        "z_center"
+      ],
+      "q2_bin_col": "Q2_bin_idx",
+      "target_col": "logA",
+      "train_fraction": 0.1,
+      "random_seed": 42,
+      "shuffle_before_split": true,
+      "input_scaler": "physics",
+      "target_scaler": "robust"
+    },
+    "aggregation": {
+      "strategy": "rbcm",
+      "rbcm_beta_floor": 0.0001,
+      "prior_var_scale": 1.0,
+      "learn_weights": true,
+      "weight_lr": 0.05,
+      "weight_epochs": 200,
+      "weight_val_frac": 0.2,
+      "weight_reg": 0.001,
+      "weight_init": "uniform",
+      "axes_enabled": [
+        "q2",
+        "w2",
+        "beta",
+        "z"
+      ]
+    },
+    "training": {
+      "n_epochs": 50,
+      "lr": 0.1,
+      "device": "auto",
+      "cg_tol": 0.001,
+      "max_cg_iter": 1000,
+      "oom_fallback": "ski",
+      "ski_grid_size": 30,
+      "verbose": true,
+      "early_stop_patience": 20,
+      "early_stop_delta": 0.0001,
+      "max_cholesky_size": 2000,
+      "cholesky_jitter": 0.0001,
+      "min_noise": 0.0001,
+      "use_double": false
+    },
+    "metrics": {
+      "track": [
+        "mae",
+        "rmse",
+        "nlpd",
+        "crps",
+        "coverage_90",
+        "coverage_68",
+        "mean_uncertainty",
+        "uncertainty_calibration_error"
+      ],
+      "primary_metric": "mae",
+      "lower_is_better": true
+    },
+    "kernels": {
+      "q2": {
+        "axis": "q2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "sm_x_matern52"
+      },
+      "w2": {
+        "axis": "w2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_power_x_matern52"
+      },
+      "beta": {
+        "axis": "beta",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "spectral_mixture"
+      },
+      "z": {
+        "axis": "z",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "matern52"
+      }
+    },
+    "save_results": true,
+    "results_dir": "results/sweep"
+  },
+  {
+    "name": "kernel_axis_beta_rbf",
+    "description": "4-axis partitioned GP ensemble with rBCM aggregation. Physics-informed kernels per axis. 10% training fraction.",
+    "tags": [
+      "diffraction",
+      "inclusive",
+      "Q2",
+      "W2",
+      "beta",
+      "z"
+    ],
+    "data": {
+      "csv_path": "/home/omkiran/kishore/gp4d_lab/data/inclusive_A1__bSat_STU_q0_bin0-1079999_LQQ.csv",
+      "feature_cols": [
+        "Q2_log_center",
+        "W2_log_center",
+        "beta_center",
+        "z_center"
+      ],
+      "q2_bin_col": "Q2_bin_idx",
+      "target_col": "logA",
+      "train_fraction": 0.1,
+      "random_seed": 42,
+      "shuffle_before_split": true,
+      "input_scaler": "physics",
+      "target_scaler": "robust"
+    },
+    "aggregation": {
+      "strategy": "rbcm",
+      "rbcm_beta_floor": 0.0001,
+      "prior_var_scale": 1.0,
+      "learn_weights": true,
+      "weight_lr": 0.05,
+      "weight_epochs": 200,
+      "weight_val_frac": 0.2,
+      "weight_reg": 0.001,
+      "weight_init": "uniform",
+      "axes_enabled": [
+        "q2",
+        "w2",
+        "beta",
+        "z"
+      ]
+    },
+    "training": {
+      "n_epochs": 50,
+      "lr": 0.1,
+      "device": "auto",
+      "cg_tol": 0.001,
+      "max_cg_iter": 1000,
+      "oom_fallback": "ski",
+      "ski_grid_size": 30,
+      "verbose": true,
+      "early_stop_patience": 20,
+      "early_stop_delta": 0.0001,
+      "max_cholesky_size": 2000,
+      "cholesky_jitter": 0.0001,
+      "min_noise": 0.0001,
+      "use_double": false
+    },
+    "metrics": {
+      "track": [
+        "mae",
+        "rmse",
+        "nlpd",
+        "crps",
+        "coverage_90",
+        "coverage_68",
+        "mean_uncertainty",
+        "uncertainty_calibration_error"
+      ],
+      "primary_metric": "mae",
+      "lower_is_better": true
+    },
+    "kernels": {
+      "q2": {
+        "axis": "q2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "sm_x_matern52"
+      },
+      "w2": {
+        "axis": "w2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_power_x_matern52"
+      },
+      "beta": {
+        "axis": "beta",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "rbf"
+      },
+      "z": {
+        "axis": "z",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "matern52"
+      }
+    },
+    "save_results": true,
+    "results_dir": "results/sweep"
+  },
+  {
+    "name": "kernel_axis_beta_sm_x_matern52",
+    "description": "4-axis partitioned GP ensemble with rBCM aggregation. Physics-informed kernels per axis. 10% training fraction.",
+    "tags": [
+      "diffraction",
+      "inclusive",
+      "Q2",
+      "W2",
+      "beta",
+      "z"
+    ],
+    "data": {
+      "csv_path": "/home/omkiran/kishore/gp4d_lab/data/inclusive_A1__bSat_STU_q0_bin0-1079999_LQQ.csv",
+      "feature_cols": [
+        "Q2_log_center",
+        "W2_log_center",
+        "beta_center",
+        "z_center"
+      ],
+      "q2_bin_col": "Q2_bin_idx",
+      "target_col": "logA",
+      "train_fraction": 0.1,
+      "random_seed": 42,
+      "shuffle_before_split": true,
+      "input_scaler": "physics",
+      "target_scaler": "robust"
+    },
+    "aggregation": {
+      "strategy": "rbcm",
+      "rbcm_beta_floor": 0.0001,
+      "prior_var_scale": 1.0,
+      "learn_weights": true,
+      "weight_lr": 0.05,
+      "weight_epochs": 200,
+      "weight_val_frac": 0.2,
+      "weight_reg": 0.001,
+      "weight_init": "uniform",
+      "axes_enabled": [
+        "q2",
+        "w2",
+        "beta",
+        "z"
+      ]
+    },
+    "training": {
+      "n_epochs": 50,
+      "lr": 0.1,
+      "device": "auto",
+      "cg_tol": 0.001,
+      "max_cg_iter": 1000,
+      "oom_fallback": "ski",
+      "ski_grid_size": 30,
+      "verbose": true,
+      "early_stop_patience": 20,
+      "early_stop_delta": 0.0001,
+      "max_cholesky_size": 2000,
+      "cholesky_jitter": 0.0001,
+      "min_noise": 0.0001,
+      "use_double": false
+    },
+    "metrics": {
+      "track": [
+        "mae",
+        "rmse",
+        "nlpd",
+        "crps",
+        "coverage_90",
+        "coverage_68",
+        "mean_uncertainty",
+        "uncertainty_calibration_error"
+      ],
+      "primary_metric": "mae",
+      "lower_is_better": true
+    },
+    "kernels": {
+      "q2": {
+        "axis": "q2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "sm_x_matern52"
+      },
+      "w2": {
+        "axis": "w2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_power_x_matern52"
+      },
+      "beta": {
+        "axis": "beta",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "sm_x_matern52"
+      },
+      "z": {
+        "axis": "z",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "matern52"
+      }
+    },
+    "save_results": true,
+    "results_dir": "results/sweep"
+  },
+  {
+    "name": "kernel_axis_beta_gibbs_power_x_matern52",
+    "description": "4-axis partitioned GP ensemble with rBCM aggregation. Physics-informed kernels per axis. 10% training fraction.",
+    "tags": [
+      "diffraction",
+      "inclusive",
+      "Q2",
+      "W2",
+      "beta",
+      "z"
+    ],
+    "data": {
+      "csv_path": "/home/omkiran/kishore/gp4d_lab/data/inclusive_A1__bSat_STU_q0_bin0-1079999_LQQ.csv",
+      "feature_cols": [
+        "Q2_log_center",
+        "W2_log_center",
+        "beta_center",
+        "z_center"
+      ],
+      "q2_bin_col": "Q2_bin_idx",
+      "target_col": "logA",
+      "train_fraction": 0.1,
+      "random_seed": 42,
+      "shuffle_before_split": true,
+      "input_scaler": "physics",
+      "target_scaler": "robust"
+    },
+    "aggregation": {
+      "strategy": "rbcm",
+      "rbcm_beta_floor": 0.0001,
+      "prior_var_scale": 1.0,
+      "learn_weights": true,
+      "weight_lr": 0.05,
+      "weight_epochs": 200,
+      "weight_val_frac": 0.2,
+      "weight_reg": 0.001,
+      "weight_init": "uniform",
+      "axes_enabled": [
+        "q2",
+        "w2",
+        "beta",
+        "z"
+      ]
+    },
+    "training": {
+      "n_epochs": 50,
+      "lr": 0.1,
+      "device": "auto",
+      "cg_tol": 0.001,
+      "max_cg_iter": 1000,
+      "oom_fallback": "ski",
+      "ski_grid_size": 30,
+      "verbose": true,
+      "early_stop_patience": 20,
+      "early_stop_delta": 0.0001,
+      "max_cholesky_size": 2000,
+      "cholesky_jitter": 0.0001,
+      "min_noise": 0.0001,
+      "use_double": false
+    },
+    "metrics": {
+      "track": [
+        "mae",
+        "rmse",
+        "nlpd",
+        "crps",
+        "coverage_90",
+        "coverage_68",
+        "mean_uncertainty",
+        "uncertainty_calibration_error"
+      ],
+      "primary_metric": "mae",
+      "lower_is_better": true
+    },
+    "kernels": {
+      "q2": {
+        "axis": "q2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "sm_x_matern52"
+      },
+      "w2": {
+        "axis": "w2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_power_x_matern52"
+      },
+      "beta": {
+        "axis": "beta",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_power_x_matern52"
+      },
+      "z": {
+        "axis": "z",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "matern52"
+      }
+    },
+    "save_results": true,
+    "results_dir": "results/sweep"
+  },
+  {
+    "name": "kernel_axis_beta_gibbs_sigmoid_x_matern52",
+    "description": "4-axis partitioned GP ensemble with rBCM aggregation. Physics-informed kernels per axis. 10% training fraction.",
+    "tags": [
+      "diffraction",
+      "inclusive",
+      "Q2",
+      "W2",
+      "beta",
+      "z"
+    ],
+    "data": {
+      "csv_path": "/home/omkiran/kishore/gp4d_lab/data/inclusive_A1__bSat_STU_q0_bin0-1079999_LQQ.csv",
+      "feature_cols": [
+        "Q2_log_center",
+        "W2_log_center",
+        "beta_center",
+        "z_center"
+      ],
+      "q2_bin_col": "Q2_bin_idx",
+      "target_col": "logA",
+      "train_fraction": 0.1,
+      "random_seed": 42,
+      "shuffle_before_split": true,
+      "input_scaler": "physics",
+      "target_scaler": "robust"
+    },
+    "aggregation": {
+      "strategy": "rbcm",
+      "rbcm_beta_floor": 0.0001,
+      "prior_var_scale": 1.0,
+      "learn_weights": true,
+      "weight_lr": 0.05,
+      "weight_epochs": 200,
+      "weight_val_frac": 0.2,
+      "weight_reg": 0.001,
+      "weight_init": "uniform",
+      "axes_enabled": [
+        "q2",
+        "w2",
+        "beta",
+        "z"
+      ]
+    },
+    "training": {
+      "n_epochs": 50,
+      "lr": 0.1,
+      "device": "auto",
+      "cg_tol": 0.001,
+      "max_cg_iter": 1000,
+      "oom_fallback": "ski",
+      "ski_grid_size": 30,
+      "verbose": true,
+      "early_stop_patience": 20,
+      "early_stop_delta": 0.0001,
+      "max_cholesky_size": 2000,
+      "cholesky_jitter": 0.0001,
+      "min_noise": 0.0001,
+      "use_double": false
+    },
+    "metrics": {
+      "track": [
+        "mae",
+        "rmse",
+        "nlpd",
+        "crps",
+        "coverage_90",
+        "coverage_68",
+        "mean_uncertainty",
+        "uncertainty_calibration_error"
+      ],
+      "primary_metric": "mae",
+      "lower_is_better": true
+    },
+    "kernels": {
+      "q2": {
+        "axis": "q2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "sm_x_matern52"
+      },
+      "w2": {
+        "axis": "w2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_power_x_matern52"
+      },
+      "beta": {
+        "axis": "beta",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_sigmoid_x_matern52"
+      },
+      "z": {
+        "axis": "z",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "matern52"
+      }
+    },
+    "save_results": true,
+    "results_dir": "results/sweep"
+  },
+  {
+    "name": "kernel_axis_beta_matern52_x_sm",
+    "description": "4-axis partitioned GP ensemble with rBCM aggregation. Physics-informed kernels per axis. 10% training fraction.",
+    "tags": [
+      "diffraction",
+      "inclusive",
+      "Q2",
+      "W2",
+      "beta",
+      "z"
+    ],
+    "data": {
+      "csv_path": "/home/omkiran/kishore/gp4d_lab/data/inclusive_A1__bSat_STU_q0_bin0-1079999_LQQ.csv",
+      "feature_cols": [
+        "Q2_log_center",
+        "W2_log_center",
+        "beta_center",
+        "z_center"
+      ],
+      "q2_bin_col": "Q2_bin_idx",
+      "target_col": "logA",
+      "train_fraction": 0.1,
+      "random_seed": 42,
+      "shuffle_before_split": true,
+      "input_scaler": "physics",
+      "target_scaler": "robust"
+    },
+    "aggregation": {
+      "strategy": "rbcm",
+      "rbcm_beta_floor": 0.0001,
+      "prior_var_scale": 1.0,
+      "learn_weights": true,
+      "weight_lr": 0.05,
+      "weight_epochs": 200,
+      "weight_val_frac": 0.2,
+      "weight_reg": 0.001,
+      "weight_init": "uniform",
+      "axes_enabled": [
+        "q2",
+        "w2",
+        "beta",
+        "z"
+      ]
+    },
+    "training": {
+      "n_epochs": 50,
+      "lr": 0.1,
+      "device": "auto",
+      "cg_tol": 0.001,
+      "max_cg_iter": 1000,
+      "oom_fallback": "ski",
+      "ski_grid_size": 30,
+      "verbose": true,
+      "early_stop_patience": 20,
+      "early_stop_delta": 0.0001,
+      "max_cholesky_size": 2000,
+      "cholesky_jitter": 0.0001,
+      "min_noise": 0.0001,
+      "use_double": false
+    },
+    "metrics": {
+      "track": [
+        "mae",
+        "rmse",
+        "nlpd",
+        "crps",
+        "coverage_90",
+        "coverage_68",
+        "mean_uncertainty",
+        "uncertainty_calibration_error"
+      ],
+      "primary_metric": "mae",
+      "lower_is_better": true
+    },
+    "kernels": {
+      "q2": {
+        "axis": "q2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "sm_x_matern52"
+      },
+      "w2": {
+        "axis": "w2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_power_x_matern52"
+      },
+      "beta": {
+        "axis": "beta",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "matern52_x_sm"
+      },
+      "z": {
+        "axis": "z",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "matern52"
+      }
+    },
+    "save_results": true,
+    "results_dir": "results/sweep"
+  },
+  {
+    "name": "kernel_axis_z_matern52",
+    "description": "4-axis partitioned GP ensemble with rBCM aggregation. Physics-informed kernels per axis. 10% training fraction.",
+    "tags": [
+      "diffraction",
+      "inclusive",
+      "Q2",
+      "W2",
+      "beta",
+      "z"
+    ],
+    "data": {
+      "csv_path": "/home/omkiran/kishore/gp4d_lab/data/inclusive_A1__bSat_STU_q0_bin0-1079999_LQQ.csv",
+      "feature_cols": [
+        "Q2_log_center",
+        "W2_log_center",
+        "beta_center",
+        "z_center"
+      ],
+      "q2_bin_col": "Q2_bin_idx",
+      "target_col": "logA",
+      "train_fraction": 0.1,
+      "random_seed": 42,
+      "shuffle_before_split": true,
+      "input_scaler": "physics",
+      "target_scaler": "robust"
+    },
+    "aggregation": {
+      "strategy": "rbcm",
+      "rbcm_beta_floor": 0.0001,
+      "prior_var_scale": 1.0,
+      "learn_weights": true,
+      "weight_lr": 0.05,
+      "weight_epochs": 200,
+      "weight_val_frac": 0.2,
+      "weight_reg": 0.001,
+      "weight_init": "uniform",
+      "axes_enabled": [
+        "q2",
+        "w2",
+        "beta",
+        "z"
+      ]
+    },
+    "training": {
+      "n_epochs": 50,
+      "lr": 0.1,
+      "device": "auto",
+      "cg_tol": 0.001,
+      "max_cg_iter": 1000,
+      "oom_fallback": "ski",
+      "ski_grid_size": 30,
+      "verbose": true,
+      "early_stop_patience": 20,
+      "early_stop_delta": 0.0001,
+      "max_cholesky_size": 2000,
+      "cholesky_jitter": 0.0001,
+      "min_noise": 0.0001,
+      "use_double": false
+    },
+    "metrics": {
+      "track": [
+        "mae",
+        "rmse",
+        "nlpd",
+        "crps",
+        "coverage_90",
+        "coverage_68",
+        "mean_uncertainty",
+        "uncertainty_calibration_error"
+      ],
+      "primary_metric": "mae",
+      "lower_is_better": true
+    },
+    "kernels": {
+      "q2": {
+        "axis": "q2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "sm_x_matern52"
+      },
+      "w2": {
+        "axis": "w2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_power_x_matern52"
+      },
+      "beta": {
+        "axis": "beta",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "sigmoid",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_sigmoid_x_matern52"
+      },
+      "z": {
+        "axis": "z",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "matern52"
+      }
+    },
+    "save_results": true,
+    "results_dir": "results/sweep"
+  },
+  {
+    "name": "kernel_axis_z_spectral_mixture",
+    "description": "4-axis partitioned GP ensemble with rBCM aggregation. Physics-informed kernels per axis. 10% training fraction.",
+    "tags": [
+      "diffraction",
+      "inclusive",
+      "Q2",
+      "W2",
+      "beta",
+      "z"
+    ],
+    "data": {
+      "csv_path": "/home/omkiran/kishore/gp4d_lab/data/inclusive_A1__bSat_STU_q0_bin0-1079999_LQQ.csv",
+      "feature_cols": [
+        "Q2_log_center",
+        "W2_log_center",
+        "beta_center",
+        "z_center"
+      ],
+      "q2_bin_col": "Q2_bin_idx",
+      "target_col": "logA",
+      "train_fraction": 0.1,
+      "random_seed": 42,
+      "shuffle_before_split": true,
+      "input_scaler": "physics",
+      "target_scaler": "robust"
+    },
+    "aggregation": {
+      "strategy": "rbcm",
+      "rbcm_beta_floor": 0.0001,
+      "prior_var_scale": 1.0,
+      "learn_weights": true,
+      "weight_lr": 0.05,
+      "weight_epochs": 200,
+      "weight_val_frac": 0.2,
+      "weight_reg": 0.001,
+      "weight_init": "uniform",
+      "axes_enabled": [
+        "q2",
+        "w2",
+        "beta",
+        "z"
+      ]
+    },
+    "training": {
+      "n_epochs": 50,
+      "lr": 0.1,
+      "device": "auto",
+      "cg_tol": 0.001,
+      "max_cg_iter": 1000,
+      "oom_fallback": "ski",
+      "ski_grid_size": 30,
+      "verbose": true,
+      "early_stop_patience": 20,
+      "early_stop_delta": 0.0001,
+      "max_cholesky_size": 2000,
+      "cholesky_jitter": 0.0001,
+      "min_noise": 0.0001,
+      "use_double": false
+    },
+    "metrics": {
+      "track": [
+        "mae",
+        "rmse",
+        "nlpd",
+        "crps",
+        "coverage_90",
+        "coverage_68",
+        "mean_uncertainty",
+        "uncertainty_calibration_error"
+      ],
+      "primary_metric": "mae",
+      "lower_is_better": true
+    },
+    "kernels": {
+      "q2": {
+        "axis": "q2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "sm_x_matern52"
+      },
+      "w2": {
+        "axis": "w2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_power_x_matern52"
+      },
+      "beta": {
+        "axis": "beta",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "sigmoid",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_sigmoid_x_matern52"
+      },
+      "z": {
+        "axis": "z",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "spectral_mixture"
+      }
+    },
+    "save_results": true,
+    "results_dir": "results/sweep"
+  },
+  {
+    "name": "kernel_axis_z_rbf",
+    "description": "4-axis partitioned GP ensemble with rBCM aggregation. Physics-informed kernels per axis. 10% training fraction.",
+    "tags": [
+      "diffraction",
+      "inclusive",
+      "Q2",
+      "W2",
+      "beta",
+      "z"
+    ],
+    "data": {
+      "csv_path": "/home/omkiran/kishore/gp4d_lab/data/inclusive_A1__bSat_STU_q0_bin0-1079999_LQQ.csv",
+      "feature_cols": [
+        "Q2_log_center",
+        "W2_log_center",
+        "beta_center",
+        "z_center"
+      ],
+      "q2_bin_col": "Q2_bin_idx",
+      "target_col": "logA",
+      "train_fraction": 0.1,
+      "random_seed": 42,
+      "shuffle_before_split": true,
+      "input_scaler": "physics",
+      "target_scaler": "robust"
+    },
+    "aggregation": {
+      "strategy": "rbcm",
+      "rbcm_beta_floor": 0.0001,
+      "prior_var_scale": 1.0,
+      "learn_weights": true,
+      "weight_lr": 0.05,
+      "weight_epochs": 200,
+      "weight_val_frac": 0.2,
+      "weight_reg": 0.001,
+      "weight_init": "uniform",
+      "axes_enabled": [
+        "q2",
+        "w2",
+        "beta",
+        "z"
+      ]
+    },
+    "training": {
+      "n_epochs": 50,
+      "lr": 0.1,
+      "device": "auto",
+      "cg_tol": 0.001,
+      "max_cg_iter": 1000,
+      "oom_fallback": "ski",
+      "ski_grid_size": 30,
+      "verbose": true,
+      "early_stop_patience": 20,
+      "early_stop_delta": 0.0001,
+      "max_cholesky_size": 2000,
+      "cholesky_jitter": 0.0001,
+      "min_noise": 0.0001,
+      "use_double": false
+    },
+    "metrics": {
+      "track": [
+        "mae",
+        "rmse",
+        "nlpd",
+        "crps",
+        "coverage_90",
+        "coverage_68",
+        "mean_uncertainty",
+        "uncertainty_calibration_error"
+      ],
+      "primary_metric": "mae",
+      "lower_is_better": true
+    },
+    "kernels": {
+      "q2": {
+        "axis": "q2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "sm_x_matern52"
+      },
+      "w2": {
+        "axis": "w2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_power_x_matern52"
+      },
+      "beta": {
+        "axis": "beta",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "sigmoid",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_sigmoid_x_matern52"
+      },
+      "z": {
+        "axis": "z",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "rbf"
+      }
+    },
+    "save_results": true,
+    "results_dir": "results/sweep"
+  },
+  {
+    "name": "kernel_axis_z_sm_x_matern52",
+    "description": "4-axis partitioned GP ensemble with rBCM aggregation. Physics-informed kernels per axis. 10% training fraction.",
+    "tags": [
+      "diffraction",
+      "inclusive",
+      "Q2",
+      "W2",
+      "beta",
+      "z"
+    ],
+    "data": {
+      "csv_path": "/home/omkiran/kishore/gp4d_lab/data/inclusive_A1__bSat_STU_q0_bin0-1079999_LQQ.csv",
+      "feature_cols": [
+        "Q2_log_center",
+        "W2_log_center",
+        "beta_center",
+        "z_center"
+      ],
+      "q2_bin_col": "Q2_bin_idx",
+      "target_col": "logA",
+      "train_fraction": 0.1,
+      "random_seed": 42,
+      "shuffle_before_split": true,
+      "input_scaler": "physics",
+      "target_scaler": "robust"
+    },
+    "aggregation": {
+      "strategy": "rbcm",
+      "rbcm_beta_floor": 0.0001,
+      "prior_var_scale": 1.0,
+      "learn_weights": true,
+      "weight_lr": 0.05,
+      "weight_epochs": 200,
+      "weight_val_frac": 0.2,
+      "weight_reg": 0.001,
+      "weight_init": "uniform",
+      "axes_enabled": [
+        "q2",
+        "w2",
+        "beta",
+        "z"
+      ]
+    },
+    "training": {
+      "n_epochs": 50,
+      "lr": 0.1,
+      "device": "auto",
+      "cg_tol": 0.001,
+      "max_cg_iter": 1000,
+      "oom_fallback": "ski",
+      "ski_grid_size": 30,
+      "verbose": true,
+      "early_stop_patience": 20,
+      "early_stop_delta": 0.0001,
+      "max_cholesky_size": 2000,
+      "cholesky_jitter": 0.0001,
+      "min_noise": 0.0001,
+      "use_double": false
+    },
+    "metrics": {
+      "track": [
+        "mae",
+        "rmse",
+        "nlpd",
+        "crps",
+        "coverage_90",
+        "coverage_68",
+        "mean_uncertainty",
+        "uncertainty_calibration_error"
+      ],
+      "primary_metric": "mae",
+      "lower_is_better": true
+    },
+    "kernels": {
+      "q2": {
+        "axis": "q2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "sm_x_matern52"
+      },
+      "w2": {
+        "axis": "w2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_power_x_matern52"
+      },
+      "beta": {
+        "axis": "beta",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "sigmoid",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_sigmoid_x_matern52"
+      },
+      "z": {
+        "axis": "z",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "sm_x_matern52"
+      }
+    },
+    "save_results": true,
+    "results_dir": "results/sweep"
+  },
+  {
+    "name": "kernel_axis_z_gibbs_power_x_matern52",
+    "description": "4-axis partitioned GP ensemble with rBCM aggregation. Physics-informed kernels per axis. 10% training fraction.",
+    "tags": [
+      "diffraction",
+      "inclusive",
+      "Q2",
+      "W2",
+      "beta",
+      "z"
+    ],
+    "data": {
+      "csv_path": "/home/omkiran/kishore/gp4d_lab/data/inclusive_A1__bSat_STU_q0_bin0-1079999_LQQ.csv",
+      "feature_cols": [
+        "Q2_log_center",
+        "W2_log_center",
+        "beta_center",
+        "z_center"
+      ],
+      "q2_bin_col": "Q2_bin_idx",
+      "target_col": "logA",
+      "train_fraction": 0.1,
+      "random_seed": 42,
+      "shuffle_before_split": true,
+      "input_scaler": "physics",
+      "target_scaler": "robust"
+    },
+    "aggregation": {
+      "strategy": "rbcm",
+      "rbcm_beta_floor": 0.0001,
+      "prior_var_scale": 1.0,
+      "learn_weights": true,
+      "weight_lr": 0.05,
+      "weight_epochs": 200,
+      "weight_val_frac": 0.2,
+      "weight_reg": 0.001,
+      "weight_init": "uniform",
+      "axes_enabled": [
+        "q2",
+        "w2",
+        "beta",
+        "z"
+      ]
+    },
+    "training": {
+      "n_epochs": 50,
+      "lr": 0.1,
+      "device": "auto",
+      "cg_tol": 0.001,
+      "max_cg_iter": 1000,
+      "oom_fallback": "ski",
+      "ski_grid_size": 30,
+      "verbose": true,
+      "early_stop_patience": 20,
+      "early_stop_delta": 0.0001,
+      "max_cholesky_size": 2000,
+      "cholesky_jitter": 0.0001,
+      "min_noise": 0.0001,
+      "use_double": false
+    },
+    "metrics": {
+      "track": [
+        "mae",
+        "rmse",
+        "nlpd",
+        "crps",
+        "coverage_90",
+        "coverage_68",
+        "mean_uncertainty",
+        "uncertainty_calibration_error"
+      ],
+      "primary_metric": "mae",
+      "lower_is_better": true
+    },
+    "kernels": {
+      "q2": {
+        "axis": "q2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "sm_x_matern52"
+      },
+      "w2": {
+        "axis": "w2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_power_x_matern52"
+      },
+      "beta": {
+        "axis": "beta",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "sigmoid",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_sigmoid_x_matern52"
+      },
+      "z": {
+        "axis": "z",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_power_x_matern52"
+      }
+    },
+    "save_results": true,
+    "results_dir": "results/sweep"
+  },
+  {
+    "name": "kernel_axis_z_gibbs_sigmoid_x_matern52",
+    "description": "4-axis partitioned GP ensemble with rBCM aggregation. Physics-informed kernels per axis. 10% training fraction.",
+    "tags": [
+      "diffraction",
+      "inclusive",
+      "Q2",
+      "W2",
+      "beta",
+      "z"
+    ],
+    "data": {
+      "csv_path": "/home/omkiran/kishore/gp4d_lab/data/inclusive_A1__bSat_STU_q0_bin0-1079999_LQQ.csv",
+      "feature_cols": [
+        "Q2_log_center",
+        "W2_log_center",
+        "beta_center",
+        "z_center"
+      ],
+      "q2_bin_col": "Q2_bin_idx",
+      "target_col": "logA",
+      "train_fraction": 0.1,
+      "random_seed": 42,
+      "shuffle_before_split": true,
+      "input_scaler": "physics",
+      "target_scaler": "robust"
+    },
+    "aggregation": {
+      "strategy": "rbcm",
+      "rbcm_beta_floor": 0.0001,
+      "prior_var_scale": 1.0,
+      "learn_weights": true,
+      "weight_lr": 0.05,
+      "weight_epochs": 200,
+      "weight_val_frac": 0.2,
+      "weight_reg": 0.001,
+      "weight_init": "uniform",
+      "axes_enabled": [
+        "q2",
+        "w2",
+        "beta",
+        "z"
+      ]
+    },
+    "training": {
+      "n_epochs": 50,
+      "lr": 0.1,
+      "device": "auto",
+      "cg_tol": 0.001,
+      "max_cg_iter": 1000,
+      "oom_fallback": "ski",
+      "ski_grid_size": 30,
+      "verbose": true,
+      "early_stop_patience": 20,
+      "early_stop_delta": 0.0001,
+      "max_cholesky_size": 2000,
+      "cholesky_jitter": 0.0001,
+      "min_noise": 0.0001,
+      "use_double": false
+    },
+    "metrics": {
+      "track": [
+        "mae",
+        "rmse",
+        "nlpd",
+        "crps",
+        "coverage_90",
+        "coverage_68",
+        "mean_uncertainty",
+        "uncertainty_calibration_error"
+      ],
+      "primary_metric": "mae",
+      "lower_is_better": true
+    },
+    "kernels": {
+      "q2": {
+        "axis": "q2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "sm_x_matern52"
+      },
+      "w2": {
+        "axis": "w2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_power_x_matern52"
+      },
+      "beta": {
+        "axis": "beta",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "sigmoid",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_sigmoid_x_matern52"
+      },
+      "z": {
+        "axis": "z",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_sigmoid_x_matern52"
+      }
+    },
+    "save_results": true,
+    "results_dir": "results/sweep"
+  },
+  {
+    "name": "kernel_axis_z_matern52_x_sm",
+    "description": "4-axis partitioned GP ensemble with rBCM aggregation. Physics-informed kernels per axis. 10% training fraction.",
+    "tags": [
+      "diffraction",
+      "inclusive",
+      "Q2",
+      "W2",
+      "beta",
+      "z"
+    ],
+    "data": {
+      "csv_path": "/home/omkiran/kishore/gp4d_lab/data/inclusive_A1__bSat_STU_q0_bin0-1079999_LQQ.csv",
+      "feature_cols": [
+        "Q2_log_center",
+        "W2_log_center",
+        "beta_center",
+        "z_center"
+      ],
+      "q2_bin_col": "Q2_bin_idx",
+      "target_col": "logA",
+      "train_fraction": 0.1,
+      "random_seed": 42,
+      "shuffle_before_split": true,
+      "input_scaler": "physics",
+      "target_scaler": "robust"
+    },
+    "aggregation": {
+      "strategy": "rbcm",
+      "rbcm_beta_floor": 0.0001,
+      "prior_var_scale": 1.0,
+      "learn_weights": true,
+      "weight_lr": 0.05,
+      "weight_epochs": 200,
+      "weight_val_frac": 0.2,
+      "weight_reg": 0.001,
+      "weight_init": "uniform",
+      "axes_enabled": [
+        "q2",
+        "w2",
+        "beta",
+        "z"
+      ]
+    },
+    "training": {
+      "n_epochs": 50,
+      "lr": 0.1,
+      "device": "auto",
+      "cg_tol": 0.001,
+      "max_cg_iter": 1000,
+      "oom_fallback": "ski",
+      "ski_grid_size": 30,
+      "verbose": true,
+      "early_stop_patience": 20,
+      "early_stop_delta": 0.0001,
+      "max_cholesky_size": 2000,
+      "cholesky_jitter": 0.0001,
+      "min_noise": 0.0001,
+      "use_double": false
+    },
+    "metrics": {
+      "track": [
+        "mae",
+        "rmse",
+        "nlpd",
+        "crps",
+        "coverage_90",
+        "coverage_68",
+        "mean_uncertainty",
+        "uncertainty_calibration_error"
+      ],
+      "primary_metric": "mae",
+      "lower_is_better": true
+    },
+    "kernels": {
+      "q2": {
+        "axis": "q2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "sm_x_matern52"
+      },
+      "w2": {
+        "axis": "w2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_power_x_matern52"
+      },
+      "beta": {
+        "axis": "beta",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "sigmoid",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_sigmoid_x_matern52"
+      },
+      "z": {
+        "axis": "z",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "matern52_x_sm"
+      }
+    },
+    "save_results": true,
+    "results_dir": "results/sweep"
+  },
+  {
+    "name": "kernel_global_matern52",
+    "description": "4-axis partitioned GP ensemble with rBCM aggregation. Physics-informed kernels per axis. 10% training fraction.",
+    "tags": [
+      "diffraction",
+      "inclusive",
+      "Q2",
+      "W2",
+      "beta",
+      "z"
+    ],
+    "data": {
+      "csv_path": "/home/omkiran/kishore/gp4d_lab/data/inclusive_A1__bSat_STU_q0_bin0-1079999_LQQ.csv",
+      "feature_cols": [
+        "Q2_log_center",
+        "W2_log_center",
+        "beta_center",
+        "z_center"
+      ],
+      "q2_bin_col": "Q2_bin_idx",
+      "target_col": "logA",
+      "train_fraction": 0.1,
+      "random_seed": 42,
+      "shuffle_before_split": true,
+      "input_scaler": "physics",
+      "target_scaler": "robust"
+    },
+    "aggregation": {
+      "strategy": "rbcm",
+      "rbcm_beta_floor": 0.0001,
+      "prior_var_scale": 1.0,
+      "learn_weights": true,
+      "weight_lr": 0.05,
+      "weight_epochs": 200,
+      "weight_val_frac": 0.2,
+      "weight_reg": 0.001,
+      "weight_init": "uniform",
+      "axes_enabled": [
+        "q2",
+        "w2",
+        "beta",
+        "z"
+      ]
+    },
+    "training": {
+      "n_epochs": 50,
+      "lr": 0.1,
+      "device": "auto",
+      "cg_tol": 0.001,
+      "max_cg_iter": 1000,
+      "oom_fallback": "ski",
+      "ski_grid_size": 30,
+      "verbose": true,
+      "early_stop_patience": 20,
+      "early_stop_delta": 0.0001,
+      "max_cholesky_size": 2000,
+      "cholesky_jitter": 0.0001,
+      "min_noise": 0.0001,
+      "use_double": false
+    },
+    "metrics": {
+      "track": [
+        "mae",
+        "rmse",
+        "nlpd",
+        "crps",
+        "coverage_90",
+        "coverage_68",
+        "mean_uncertainty",
+        "uncertainty_calibration_error"
+      ],
+      "primary_metric": "mae",
+      "lower_is_better": true
+    },
+    "kernels": {
+      "q2": {
+        "axis": "q2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "matern52"
+      },
+      "w2": {
+        "axis": "w2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "matern52"
+      },
+      "beta": {
+        "axis": "beta",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "matern52"
+      },
+      "z": {
+        "axis": "z",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "matern52"
+      }
+    },
+    "save_results": true,
+    "results_dir": "results/sweep"
+  },
+  {
+    "name": "kernel_global_spectral_mixture",
+    "description": "4-axis partitioned GP ensemble with rBCM aggregation. Physics-informed kernels per axis. 10% training fraction.",
+    "tags": [
+      "diffraction",
+      "inclusive",
+      "Q2",
+      "W2",
+      "beta",
+      "z"
+    ],
+    "data": {
+      "csv_path": "/home/omkiran/kishore/gp4d_lab/data/inclusive_A1__bSat_STU_q0_bin0-1079999_LQQ.csv",
+      "feature_cols": [
+        "Q2_log_center",
+        "W2_log_center",
+        "beta_center",
+        "z_center"
+      ],
+      "q2_bin_col": "Q2_bin_idx",
+      "target_col": "logA",
+      "train_fraction": 0.1,
+      "random_seed": 42,
+      "shuffle_before_split": true,
+      "input_scaler": "physics",
+      "target_scaler": "robust"
+    },
+    "aggregation": {
+      "strategy": "rbcm",
+      "rbcm_beta_floor": 0.0001,
+      "prior_var_scale": 1.0,
+      "learn_weights": true,
+      "weight_lr": 0.05,
+      "weight_epochs": 200,
+      "weight_val_frac": 0.2,
+      "weight_reg": 0.001,
+      "weight_init": "uniform",
+      "axes_enabled": [
+        "q2",
+        "w2",
+        "beta",
+        "z"
+      ]
+    },
+    "training": {
+      "n_epochs": 50,
+      "lr": 0.1,
+      "device": "auto",
+      "cg_tol": 0.001,
+      "max_cg_iter": 1000,
+      "oom_fallback": "ski",
+      "ski_grid_size": 30,
+      "verbose": true,
+      "early_stop_patience": 20,
+      "early_stop_delta": 0.0001,
+      "max_cholesky_size": 2000,
+      "cholesky_jitter": 0.0001,
+      "min_noise": 0.0001,
+      "use_double": false
+    },
+    "metrics": {
+      "track": [
+        "mae",
+        "rmse",
+        "nlpd",
+        "crps",
+        "coverage_90",
+        "coverage_68",
+        "mean_uncertainty",
+        "uncertainty_calibration_error"
+      ],
+      "primary_metric": "mae",
+      "lower_is_better": true
+    },
+    "kernels": {
+      "q2": {
+        "axis": "q2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "spectral_mixture"
+      },
+      "w2": {
+        "axis": "w2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "spectral_mixture"
+      },
+      "beta": {
+        "axis": "beta",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "spectral_mixture"
+      },
+      "z": {
+        "axis": "z",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "spectral_mixture"
+      }
+    },
+    "save_results": true,
+    "results_dir": "results/sweep"
+  },
+  {
+    "name": "kernel_global_rbf",
+    "description": "4-axis partitioned GP ensemble with rBCM aggregation. Physics-informed kernels per axis. 10% training fraction.",
+    "tags": [
+      "diffraction",
+      "inclusive",
+      "Q2",
+      "W2",
+      "beta",
+      "z"
+    ],
+    "data": {
+      "csv_path": "/home/omkiran/kishore/gp4d_lab/data/inclusive_A1__bSat_STU_q0_bin0-1079999_LQQ.csv",
+      "feature_cols": [
+        "Q2_log_center",
+        "W2_log_center",
+        "beta_center",
+        "z_center"
+      ],
+      "q2_bin_col": "Q2_bin_idx",
+      "target_col": "logA",
+      "train_fraction": 0.1,
+      "random_seed": 42,
+      "shuffle_before_split": true,
+      "input_scaler": "physics",
+      "target_scaler": "robust"
+    },
+    "aggregation": {
+      "strategy": "rbcm",
+      "rbcm_beta_floor": 0.0001,
+      "prior_var_scale": 1.0,
+      "learn_weights": true,
+      "weight_lr": 0.05,
+      "weight_epochs": 200,
+      "weight_val_frac": 0.2,
+      "weight_reg": 0.001,
+      "weight_init": "uniform",
+      "axes_enabled": [
+        "q2",
+        "w2",
+        "beta",
+        "z"
+      ]
+    },
+    "training": {
+      "n_epochs": 50,
+      "lr": 0.1,
+      "device": "auto",
+      "cg_tol": 0.001,
+      "max_cg_iter": 1000,
+      "oom_fallback": "ski",
+      "ski_grid_size": 30,
+      "verbose": true,
+      "early_stop_patience": 20,
+      "early_stop_delta": 0.0001,
+      "max_cholesky_size": 2000,
+      "cholesky_jitter": 0.0001,
+      "min_noise": 0.0001,
+      "use_double": false
+    },
+    "metrics": {
+      "track": [
+        "mae",
+        "rmse",
+        "nlpd",
+        "crps",
+        "coverage_90",
+        "coverage_68",
+        "mean_uncertainty",
+        "uncertainty_calibration_error"
+      ],
+      "primary_metric": "mae",
+      "lower_is_better": true
+    },
+    "kernels": {
+      "q2": {
+        "axis": "q2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "rbf"
+      },
+      "w2": {
+        "axis": "w2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "rbf"
+      },
+      "beta": {
+        "axis": "beta",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "rbf"
+      },
+      "z": {
+        "axis": "z",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "rbf"
+      }
+    },
+    "save_results": true,
+    "results_dir": "results/sweep"
+  },
+  {
+    "name": "kernel_global_sm_x_matern52",
+    "description": "4-axis partitioned GP ensemble with rBCM aggregation. Physics-informed kernels per axis. 10% training fraction.",
+    "tags": [
+      "diffraction",
+      "inclusive",
+      "Q2",
+      "W2",
+      "beta",
+      "z"
+    ],
+    "data": {
+      "csv_path": "/home/omkiran/kishore/gp4d_lab/data/inclusive_A1__bSat_STU_q0_bin0-1079999_LQQ.csv",
+      "feature_cols": [
+        "Q2_log_center",
+        "W2_log_center",
+        "beta_center",
+        "z_center"
+      ],
+      "q2_bin_col": "Q2_bin_idx",
+      "target_col": "logA",
+      "train_fraction": 0.1,
+      "random_seed": 42,
+      "shuffle_before_split": true,
+      "input_scaler": "physics",
+      "target_scaler": "robust"
+    },
+    "aggregation": {
+      "strategy": "rbcm",
+      "rbcm_beta_floor": 0.0001,
+      "prior_var_scale": 1.0,
+      "learn_weights": true,
+      "weight_lr": 0.05,
+      "weight_epochs": 200,
+      "weight_val_frac": 0.2,
+      "weight_reg": 0.001,
+      "weight_init": "uniform",
+      "axes_enabled": [
+        "q2",
+        "w2",
+        "beta",
+        "z"
+      ]
+    },
+    "training": {
+      "n_epochs": 50,
+      "lr": 0.1,
+      "device": "auto",
+      "cg_tol": 0.001,
+      "max_cg_iter": 1000,
+      "oom_fallback": "ski",
+      "ski_grid_size": 30,
+      "verbose": true,
+      "early_stop_patience": 20,
+      "early_stop_delta": 0.0001,
+      "max_cholesky_size": 2000,
+      "cholesky_jitter": 0.0001,
+      "min_noise": 0.0001,
+      "use_double": false
+    },
+    "metrics": {
+      "track": [
+        "mae",
+        "rmse",
+        "nlpd",
+        "crps",
+        "coverage_90",
+        "coverage_68",
+        "mean_uncertainty",
+        "uncertainty_calibration_error"
+      ],
+      "primary_metric": "mae",
+      "lower_is_better": true
+    },
+    "kernels": {
+      "q2": {
+        "axis": "q2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "sm_x_matern52"
+      },
+      "w2": {
+        "axis": "w2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "sm_x_matern52"
+      },
+      "beta": {
+        "axis": "beta",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "sm_x_matern52"
+      },
+      "z": {
+        "axis": "z",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "sm_x_matern52"
+      }
+    },
+    "save_results": true,
+    "results_dir": "results/sweep"
+  },
+  {
+    "name": "kernel_global_gibbs_power_x_matern52",
+    "description": "4-axis partitioned GP ensemble with rBCM aggregation. Physics-informed kernels per axis. 10% training fraction.",
+    "tags": [
+      "diffraction",
+      "inclusive",
+      "Q2",
+      "W2",
+      "beta",
+      "z"
+    ],
+    "data": {
+      "csv_path": "/home/omkiran/kishore/gp4d_lab/data/inclusive_A1__bSat_STU_q0_bin0-1079999_LQQ.csv",
+      "feature_cols": [
+        "Q2_log_center",
+        "W2_log_center",
+        "beta_center",
+        "z_center"
+      ],
+      "q2_bin_col": "Q2_bin_idx",
+      "target_col": "logA",
+      "train_fraction": 0.1,
+      "random_seed": 42,
+      "shuffle_before_split": true,
+      "input_scaler": "physics",
+      "target_scaler": "robust"
+    },
+    "aggregation": {
+      "strategy": "rbcm",
+      "rbcm_beta_floor": 0.0001,
+      "prior_var_scale": 1.0,
+      "learn_weights": true,
+      "weight_lr": 0.05,
+      "weight_epochs": 200,
+      "weight_val_frac": 0.2,
+      "weight_reg": 0.001,
+      "weight_init": "uniform",
+      "axes_enabled": [
+        "q2",
+        "w2",
+        "beta",
+        "z"
+      ]
+    },
+    "training": {
+      "n_epochs": 50,
+      "lr": 0.1,
+      "device": "auto",
+      "cg_tol": 0.001,
+      "max_cg_iter": 1000,
+      "oom_fallback": "ski",
+      "ski_grid_size": 30,
+      "verbose": true,
+      "early_stop_patience": 20,
+      "early_stop_delta": 0.0001,
+      "max_cholesky_size": 2000,
+      "cholesky_jitter": 0.0001,
+      "min_noise": 0.0001,
+      "use_double": false
+    },
+    "metrics": {
+      "track": [
+        "mae",
+        "rmse",
+        "nlpd",
+        "crps",
+        "coverage_90",
+        "coverage_68",
+        "mean_uncertainty",
+        "uncertainty_calibration_error"
+      ],
+      "primary_metric": "mae",
+      "lower_is_better": true
+    },
+    "kernels": {
+      "q2": {
+        "axis": "q2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_power_x_matern52"
+      },
+      "w2": {
+        "axis": "w2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_power_x_matern52"
+      },
+      "beta": {
+        "axis": "beta",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_power_x_matern52"
+      },
+      "z": {
+        "axis": "z",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_power_x_matern52"
+      }
+    },
+    "save_results": true,
+    "results_dir": "results/sweep"
+  },
+  {
+    "name": "kernel_global_gibbs_sigmoid_x_matern52",
+    "description": "4-axis partitioned GP ensemble with rBCM aggregation. Physics-informed kernels per axis. 10% training fraction.",
+    "tags": [
+      "diffraction",
+      "inclusive",
+      "Q2",
+      "W2",
+      "beta",
+      "z"
+    ],
+    "data": {
+      "csv_path": "/home/omkiran/kishore/gp4d_lab/data/inclusive_A1__bSat_STU_q0_bin0-1079999_LQQ.csv",
+      "feature_cols": [
+        "Q2_log_center",
+        "W2_log_center",
+        "beta_center",
+        "z_center"
+      ],
+      "q2_bin_col": "Q2_bin_idx",
+      "target_col": "logA",
+      "train_fraction": 0.1,
+      "random_seed": 42,
+      "shuffle_before_split": true,
+      "input_scaler": "physics",
+      "target_scaler": "robust"
+    },
+    "aggregation": {
+      "strategy": "rbcm",
+      "rbcm_beta_floor": 0.0001,
+      "prior_var_scale": 1.0,
+      "learn_weights": true,
+      "weight_lr": 0.05,
+      "weight_epochs": 200,
+      "weight_val_frac": 0.2,
+      "weight_reg": 0.001,
+      "weight_init": "uniform",
+      "axes_enabled": [
+        "q2",
+        "w2",
+        "beta",
+        "z"
+      ]
+    },
+    "training": {
+      "n_epochs": 50,
+      "lr": 0.1,
+      "device": "auto",
+      "cg_tol": 0.001,
+      "max_cg_iter": 1000,
+      "oom_fallback": "ski",
+      "ski_grid_size": 30,
+      "verbose": true,
+      "early_stop_patience": 20,
+      "early_stop_delta": 0.0001,
+      "max_cholesky_size": 2000,
+      "cholesky_jitter": 0.0001,
+      "min_noise": 0.0001,
+      "use_double": false
+    },
+    "metrics": {
+      "track": [
+        "mae",
+        "rmse",
+        "nlpd",
+        "crps",
+        "coverage_90",
+        "coverage_68",
+        "mean_uncertainty",
+        "uncertainty_calibration_error"
+      ],
+      "primary_metric": "mae",
+      "lower_is_better": true
+    },
+    "kernels": {
+      "q2": {
+        "axis": "q2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_sigmoid_x_matern52"
+      },
+      "w2": {
+        "axis": "w2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_sigmoid_x_matern52"
+      },
+      "beta": {
+        "axis": "beta",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_sigmoid_x_matern52"
+      },
+      "z": {
+        "axis": "z",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "gibbs_sigmoid_x_matern52"
+      }
+    },
+    "save_results": true,
+    "results_dir": "results/sweep"
+  },
+  {
+    "name": "kernel_global_matern52_x_sm",
+    "description": "4-axis partitioned GP ensemble with rBCM aggregation. Physics-informed kernels per axis. 10% training fraction.",
+    "tags": [
+      "diffraction",
+      "inclusive",
+      "Q2",
+      "W2",
+      "beta",
+      "z"
+    ],
+    "data": {
+      "csv_path": "/home/omkiran/kishore/gp4d_lab/data/inclusive_A1__bSat_STU_q0_bin0-1079999_LQQ.csv",
+      "feature_cols": [
+        "Q2_log_center",
+        "W2_log_center",
+        "beta_center",
+        "z_center"
+      ],
+      "q2_bin_col": "Q2_bin_idx",
+      "target_col": "logA",
+      "train_fraction": 0.1,
+      "random_seed": 42,
+      "shuffle_before_split": true,
+      "input_scaler": "physics",
+      "target_scaler": "robust"
+    },
+    "aggregation": {
+      "strategy": "rbcm",
+      "rbcm_beta_floor": 0.0001,
+      "prior_var_scale": 1.0,
+      "learn_weights": true,
+      "weight_lr": 0.05,
+      "weight_epochs": 200,
+      "weight_val_frac": 0.2,
+      "weight_reg": 0.001,
+      "weight_init": "uniform",
+      "axes_enabled": [
+        "q2",
+        "w2",
+        "beta",
+        "z"
+      ]
+    },
+    "training": {
+      "n_epochs": 50,
+      "lr": 0.1,
+      "device": "auto",
+      "cg_tol": 0.001,
+      "max_cg_iter": 1000,
+      "oom_fallback": "ski",
+      "ski_grid_size": 30,
+      "verbose": true,
+      "early_stop_patience": 20,
+      "early_stop_delta": 0.0001,
+      "max_cholesky_size": 2000,
+      "cholesky_jitter": 0.0001,
+      "min_noise": 0.0001,
+      "use_double": false
+    },
+    "metrics": {
+      "track": [
+        "mae",
+        "rmse",
+        "nlpd",
+        "crps",
+        "coverage_90",
+        "coverage_68",
+        "mean_uncertainty",
+        "uncertainty_calibration_error"
+      ],
+      "primary_metric": "mae",
+      "lower_is_better": true
+    },
+    "kernels": {
+      "q2": {
+        "axis": "q2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "matern52_x_sm"
+      },
+      "w2": {
+        "axis": "w2",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "matern52_x_sm"
+      },
+      "beta": {
+        "axis": "beta",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "matern52_x_sm"
+      },
+      "z": {
+        "axis": "z",
+        "primary_kernel": "matern52",
+        "primary_dim": 0,
+        "secondary_kernel": "matern52",
+        "use_scale_kernel": true,
+        "use_ard": true,
+        "sm_num_mixtures": 4,
+        "gibbs_variant": "power_law",
+        "gibbs_alpha_init": -0.5,
+        "gibbs_slope_init": 2.0,
+        "gibbs_x0_init": 0.0,
+        "composite_kernel": "matern52_x_sm"
+      }
+    },
+    "save_results": true,
+    "results_dir": "results/sweep"
+  }
+]
