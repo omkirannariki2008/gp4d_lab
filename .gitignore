@@ -21,11 +21,10 @@ ENV/
 
 # Large data files and simulation datasets
 data/
-Tables/
+Tables/csv/
 *.csv
 *.tsv
 *.parquet
-*.root
 *.h5
 *.hdf5
 *.zip
